@@ -10,7 +10,6 @@ yarn add storage-web
 ### 使用
 
 ``` js
-storage(params)
 // 参数
 params = {
   use: 's', // String（使用 localStorage/sessionStorage）
@@ -18,6 +17,7 @@ params = {
   strict: true, // Boolean（严格模式，输入什么输出什么）
   expire: new Date().getTime() + 24 * 60 * 60 * 1000 // 过期时间
 }
+storage(params).set('store', {})
 ```
 
 ## get
