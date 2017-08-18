@@ -10,7 +10,10 @@ storage('local').get('store')  // localStorage
 storage('s').get('store') // sessionStorage
 storage('session').get('store') // sessionStorage
 storage('sessionStorage').get('store') // sessionStorage
-storage('local', { pre: 'my_' }).get('store')  // localStorage name: my_store
+storage({
+  use: 's',
+  pre: 'my_'
+}).get('store')  // sessionStorage name: my_store
 ```
 
 ## set
@@ -21,7 +24,7 @@ storage('local', { pre: 'my_' }).get('store')  // localStorage name: my_store
 // 支持类型 String,Number,Boolean,Array,Object,Null,Undefined
 let storeValue = {
   store_id: 1,
-  store_name: '真功夫'
+  store_name: 'Tmall'
 }
 
 storage().set('store', storeValue)
@@ -50,7 +53,7 @@ storage().remove(['store', 'token'])
 可以清空当前作用域下的 storage
 
 ``` js
-storage('local', { pre: 'my_' }).clear() // 清空 localStorage 下所有以 'my_' 开头的
+storage({ pre: 'my_' }).clear() // 清空 localStorage 下所有以 'my_' 开头的
 storage('s').clear() // 清空 sessionStorage
 ```
 

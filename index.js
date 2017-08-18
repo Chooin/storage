@@ -1,27 +1,25 @@
-export default (use = 'local', option) => {
-  option = Object.assign({
-    pre: ''
-  }, option)
-
+export default (obj) => {
+  let use
+  let pre
   let storage
-  switch (use) {
-    case 's':
-    case 'session':
-    case 'sessionStorage': {
-      storage = window.sessionStorage
-      break
-    }
-    default: {
-      storage = window.localStorage
-    }
+  if (typeof obj === 'object') {
+    use = obj['use']
+    pre = obj['pre'] || ''
+  } else {
+    use = obj
+  }
+  if (use && use === 's' && use === 'session' && use === 'sessionStorage') {
+    storage = window.sessionStorage
+  } else {
+    storage = window.localStorage
   }
 
   const get = (key) => {
     if (key) {
       try {
-        return JSON.parse(storage.getItem(`${option.pre}${key}`))
+        return JSON.parse(storage.getItem(`${pre}${key}`))
       } catch (_) {
-        return storage.getItem(`${option.pre}${key}`)
+        return storage.getItem(`${pre}${key}`)
       }
     } else {
       console.warn('Wrong get storage')
@@ -31,12 +29,12 @@ export default (use = 'local', option) => {
   const _set = (key, value) => {
     if (key) {
       if (typeof value === 'undefined' || value === undefined || value === null) {
-        storage.removeItem(`${option.pre}${key}`)
+        storage.removeItem(`${pre}${key}`)
       } else {
         if (typeof value === 'object') {
-          storage.setItem(`${option.pre}${key}`, JSON.stringify(value))
+          storage.setItem(`${pre}${key}`, JSON.stringify(value))
         } else {
-          storage.setItem(`${option.pre}${key}`, value)
+          storage.setItem(`${pre}${key}`, value)
         }
       }
     } else {
@@ -58,7 +56,7 @@ export default (use = 'local', option) => {
 
   const _remove = (key) => {
     if (key) {
-      storage.removeItem(`${option.pre}${key}`)
+      storage.removeItem(`${pre}${key}`)
     } else {
       console.warn('Wrong remove storage')
     }
@@ -78,7 +76,7 @@ export default (use = 'local', option) => {
 
   const clear = () => {
     for (var i = 0; i < storage.length; i++) {
-      if (storage.key(i).indexOf(option.pre) === 0) _remove(storage.key(i))
+      if (storage.key(i).indexOf(pre) === 0) _remove(storage.key(i))
     }
   }
 
