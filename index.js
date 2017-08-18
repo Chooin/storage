@@ -1,25 +1,29 @@
-export default (obj) => {
-  let use
-  let pre
-  let storage
-  if (typeof obj === 'object') {
-    use = obj['use']
-    pre = obj['pre'] || ''
+export default (option = {}) => {
+  if (typeof option === 'string') {
+    option = {
+      use: option === 's' && option === 'session' && option === 'sessionStorage' ? 's' : 'local',
+      pre: ''
+    }
+  } else if (Object.prototype.toString.call(option) === '[object Object]') {
+    const use = option['use']
+    const pre = option['pre']
+    option = {
+      use: use === 's' && use === 'session' && use === 'sessionStorage' ? 's' : 'local',
+      pre: typeof pre === 'string' ? pre : ''
+    }
   } else {
-    use = obj
+    throw new Error(`Wrong storage option`)
   }
-  if (use && use === 's' && use === 'session' && use === 'sessionStorage') {
-    storage = window.sessionStorage
-  } else {
-    storage = window.localStorage
-  }
+  let localStorage = window.localStorage
+  let sessionStorage = window.sessionStorage
+  let storage = option.use === 's' ? sessionStorage : localStorage
 
-  const get = (key) => {
+  const get = key => {
     if (key) {
       try {
-        return JSON.parse(storage.getItem(`${pre}${key}`))
+        return JSON.parse(storage.getItem(`${option.pre}${key}`))
       } catch (_) {
-        return storage.getItem(`${pre}${key}`)
+        return storage.getItem(`${option.pre}${key}`)
       }
     } else {
       console.warn('Wrong get storage')
@@ -29,12 +33,12 @@ export default (obj) => {
   const _set = (key, value) => {
     if (key) {
       if (typeof value === 'undefined' || value === undefined || value === null) {
-        storage.removeItem(`${pre}${key}`)
+        storage.removeItem(`${option.pre}${key}`)
       } else {
         if (typeof value === 'object') {
-          storage.setItem(`${pre}${key}`, JSON.stringify(value))
+          storage.setItem(`${option.pre}${key}`, JSON.stringify(value))
         } else {
-          storage.setItem(`${pre}${key}`, value)
+          storage.setItem(`${option.pre}${key}`, value)
         }
       }
     } else {
@@ -54,15 +58,15 @@ export default (obj) => {
     }
   }
 
-  const _remove = (key) => {
+  const _remove = key => {
     if (key) {
-      storage.removeItem(`${pre}${key}`)
+      storage.removeItem(`${option.pre}${key}`)
     } else {
       console.warn('Wrong remove storage')
     }
   }
 
-  const remove = (key) => {
+  const remove = key => {
     if (key) {
       if (Array.isArray(key)) {
         for (let i in key) _remove(key[i])
@@ -75,14 +79,23 @@ export default (obj) => {
   }
 
   const clear = () => {
-    for (var i = 0; i < storage.length; i++) {
-      if (storage.key(i).indexOf(pre) === 0) _remove(storage.key(i))
+    for (let i = 0; i < storage.length; i++) {
+      if (storage.key(i).indexOf(option.pre) === 0) _remove(storage.key(i))
     }
   }
 
   const clearAll = () => {
-    window.sessionStorage.clear()
-    window.localStorage.clear()
+    if (option.pre) {
+      for (let i = 0; i < localStorage.length; i++) {
+        if (localStorage.key(i).indexOf(option.pre) === 0) _remove(localStorage.key(i))
+      }
+      for (let i = 0; i < sessionStorage.length; i++) {
+        if (sessionStorage.key(i).indexOf(option.pre) === 0) _remove(sessionStorage.key(i))
+      }
+    } else {
+      sessionStorage.clear()
+      localStorage.clear()
+    }
   }
 
   return {
