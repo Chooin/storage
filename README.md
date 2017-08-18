@@ -14,7 +14,8 @@ import storage from 'storage-web'
 storage({
   use: 's', // String（使用 localStorage/sessionStorage）
   pre: 'my_', // String（命名空间）
-  strict: true // Boolean（强类型，输入什么输出什么）
+  strict: true, // Boolean（严格模式，输入什么输出什么）
+  expire: new Date().getTime() + 24 * 60 * 60 * 1000 // 过期时间
 }).get('store')
 ```
 
@@ -46,7 +47,12 @@ let storeValue = {
   store_name: 'Tmall'
 }
 
-storage().set('store', storeValue)
+storage({
+  use: 's',
+  pre: 'my_',
+  strict: true,
+  expire: new Date().getTime()
+}).set('store', storeValue)
 // 或
 storage().set([
   {
