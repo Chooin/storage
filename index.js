@@ -5,7 +5,7 @@ export default (option = {}) => {
     strict: false
   }
 
-  const objectType = value => Object.prototype.toString.call(value).replace('[object ', '').replace(']', '')
+  const objectType = value => Object.prototype.toString.call(value).split(' ')[1].replace(']', '')
 
   if (typeof option === 'string') {
     option = {
@@ -34,18 +34,7 @@ export default (option = {}) => {
       key = `${option.pre}${key}`
       if (option.strict) {
         let value = storage.getItem(key)
-        if (value) {
-          value = JSON.parse(value)
-          if (value.type === 'String') {
-            return String(value.data)
-          } else if (value.type === 'Number') {
-            return Number(value.data)
-          } else {
-            return JSON.parse(storage.getItem(key))
-          }
-        } else {
-          return null
-        }
+        return value ? JSON.parse(value).data : null
       } else {
         try {
           return JSON.parse(storage.getItem(key))
