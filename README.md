@@ -2,7 +2,7 @@
 
 ### get localStorage
 
-get
+### get
 
 获取
 
@@ -15,7 +15,7 @@ storage('sessionStorage').get('store') // sessionStorage
 storage('local', { pre: 'my_' }).get('store')  // localStorage name: my_store
 ```
 
-set
+### set
 
 设置
 
@@ -36,7 +36,8 @@ storage().set([
 ])
 ```
 
-remove
+
+### remove
 
 移除
 
@@ -46,7 +47,7 @@ storage().remove('store')
 storage().remove(['store', 'token'])
 ```
 
-clear
+### clear
 
 可以清空当前作用域下的 storage
 
@@ -55,7 +56,7 @@ storage('local', { pre: 'my_' }).clear() // 清空 localStorage 下所有以 'my
 storage('s').clear() // 清空 sessionStorage
 ```
 
-clearAll
+### clearAll
 
 清空所有 storage
 
