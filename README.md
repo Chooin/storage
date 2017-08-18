@@ -10,13 +10,14 @@ yarn add storage-web
 ### 使用
 
 ``` js
-import storage from 'storage-web'
-storage({
+storage(params)
+// 参数
+params = {
   use: 's', // String（使用 localStorage/sessionStorage）
   pre: 'my_', // String（命名空间）
   strict: true, // Boolean（严格模式，输入什么输出什么）
   expire: new Date().getTime() + 24 * 60 * 60 * 1000 // 过期时间
-}).get('store')
+}
 ```
 
 ## get
