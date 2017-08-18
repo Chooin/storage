@@ -4,26 +4,9 @@ export default (option = {}) => {
     pre: '',
     strict: false
   }
-  const objectType = value => {
-    switch (Object.prototype.toString.call(value)) {
-      case '[object String]':
-        return 'String'
-      case '[object Number]':
-        return 'Number'
-      case '[object Boolean]':
-        return 'Boolean'
-      case '[object Array]':
-        return 'Array'
-      case '[object Object]':
-        return 'Object'
-      case '[object Null]':
-        return 'Null'
-      case '[object Undefined]':
-        return 'Undefined'
-      case '[object Function]':
-        return 'Function'
-    }
-  }
+
+  const objectType = value => Object.prototype.toString.call(value).replace('[object ', '').replace(']', '')
+
   if (typeof option === 'string') {
     option = {
       use: option === 's' && option === 'session' && option === 'sessionStorage' ? 's' : defaults.use,
