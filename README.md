@@ -3,6 +3,8 @@
 ### 安装
 ``` sh
 npm install storage-web --save
+# 或
+yarn add storage-web
 ```
 
 ### 使用
