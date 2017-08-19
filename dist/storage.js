@@ -58,15 +58,15 @@ var Storage = function () {
           if (value === null) return null;
           try {
             value = JSON.parse(value);
+            if (value.expire && value.expire > new Date().getTime() || value.expire === null) {
+              return value.data;
+            } else {
+              this.$s.removeItem(key);
+              return null;
+            }
           } catch (_) {
             this.$s.removeItem(key);
             this._console('Wrong get storage');
-          }
-          if (value.expire && value.expire > new Date().getTime() || value.expire === null) {
-            return value.data;
-          } else {
-            this.$s.removeItem(key);
-            return null;
           }
         } else {
           try {
