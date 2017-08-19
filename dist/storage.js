@@ -49,30 +49,27 @@ var Storage = function () {
   _createClass(Storage, [{
     key: 'get',
     value: function get(key) {
-      if (key) {
-        key = '' + this.defaults.pre + key;
-        if (this.defaults.strict) {
-          var value = this.$s.getItem(key);
-          if (value === null) return null;
-          try {
-            value = JSON.parse(value);
-          } catch (_) {
-            return null;
-          }
-          if (value.expire && value.expire > new Date().getTime() || value.expire === null) {
-            return value.data;
-          } else {
-            this.$s.removeItem(key);
-          }
+      if (this._isUndefinedOrNull(key)) return this._console('Wrong get storage');
+      key = '' + this.defaults.pre + key;
+      if (this.defaults.strict) {
+        var value = this.$s.getItem(key);
+        if (value === null) return null;
+        try {
+          value = JSON.parse(value);
+        } catch (_) {
+          return null;
+        }
+        if (value.expire && value.expire > new Date().getTime() || value.expire === null) {
+          return value.data;
         } else {
-          try {
-            return JSON.parse(this.$s.getItem(key));
-          } catch (_) {
-            return this.$s.getItem(key);
-          }
+          this.$s.removeItem(key);
         }
       } else {
-        this._console('Wrong get storage');
+        try {
+          return JSON.parse(this.$s.getItem(key));
+        } catch (_) {
+          return this.$s.getItem(key);
+        }
       }
     }
 
@@ -133,27 +130,24 @@ var Storage = function () {
   }, {
     key: '_set',
     value: function _set(key, value) {
-      if (key) {
-        key = '' + this.defaults.pre + key;
-        if (typeof value === 'undefined' || value === null) {
-          this.$s.removeItem(key);
+      if (this._isUndefinedOrNull(key)) return this._console('Wrong set storage');
+      key = '' + this.defaults.pre + key;
+      if (this._isUndefinedOrNull(value)) {
+        this.$s.removeItem(key);
+      } else {
+        if (this.defaults.strict) {
+          this.$s.setItem(key, JSON.stringify({
+            data: value,
+            expire: this.defaults.expire,
+            type: this._type(value)
+          }));
         } else {
-          if (this.defaults.strict) {
-            this.$s.setItem(key, JSON.stringify({
-              data: value,
-              expire: this.defaults.expire,
-              type: this._type(value)
-            }));
+          if (this._type(value) === '[object String]' || this._type(value) === '[object Number]') {
+            this.$s.setItem(key, value);
           } else {
-            if (this._type(value) === '[object String]' || this._type(value) === '[object Number]') {
-              this.$s.setItem(key, value);
-            } else {
-              this.$s.setItem(key, JSON.stringify(value));
-            }
+            this.$s.setItem(key, JSON.stringify(value));
           }
         }
-      } else {
-        this._console('Wrong set storage');
       }
     }
   }, {
@@ -174,6 +168,11 @@ var Storage = function () {
     key: '_console',
     value: function _console(value) {
       if (typeof console !== 'undefined') console.warn(value);
+    }
+  }, {
+    key: '_isUndefinedOrNull',
+    value: function _isUndefinedOrNull(value) {
+      return typeof value === 'undefined' || value === null;
     }
   }]);
 
