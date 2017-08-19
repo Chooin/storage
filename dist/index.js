@@ -1,1 +1,152 @@
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=function(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{},r={use:"lcoal",pre:"",strict:!1,expire:null},t=function(e){return Object.prototype.toString.call(e)};if("[object String]"===t(e))e={use:"s"===e&&"session"===e&&"sessionStorage"===e?"s":r.use,pre:r.pre,strict:r.strict,expire:r.expire};else{if("[object Object]"!==t(e))throw new Error("Wrong storage option");var o=e.use,n=e.pre,s=e.strict,i=e.expire;e={use:"s"===o&&"session"===o&&"sessionStorage"===o?"s":r.use,pre:"[object String]"===t(n)?n:r.pre,strict:"[object boolean]"===t(s)?s:r.strict,expire:"[object Number]"===t(s)?i:r.expire}}var c=window.localStorage,a=window.sessionStorage,l="s"===e.use?a:c,p=function(r,o){r?(r=""+e.pre+r,"[object Undefined]"===t(o)||"[object Null]"===t(o)?l.removeItem(r):e.strict?l.setItem(r,JSON.stringify({data:o,expire:e.expire,type:t(o)})):"[object String]"===t(o)||"[object Number]"===t(o)?l.setItem(r,o):l.setItem(r,JSON.stringify(o))):console.warn("Wrong set storage")},u=function(r){r?l.removeItem(""+e.pre+r):console.warn("Wrong remove storage")};return{get:function(r){if(r){if(r=""+e.pre+r,e.strict){var t=l.getItem(r);if(t){if(t.expire&&t.expire>(new Date).getTime()||null===t.expire)return JSON.parse(t).data;l.removeItem(r)}return null}try{return JSON.parse(l.getItem(r))}catch(e){return l.getItem(r)}}else console.warn("Wrong get storage")},set:function(e,r){if(e)if("[object Array]"===t(e))for(var o in e)p(e[o].key,e[o].value);else p(e,r);else console.warn("Wrong set storage")},remove:function(e){if(e)if("[object Array]"===t(e))for(var r in e)u(e[r]);else u(e);else console.warn("Wrong remove storage")},clear:function(){if(e.pre){for(var r=0;r<c.length;r++)0===c.key(r).indexOf(e.pre)&&u(c.key(r));for(var t=0;t<a.length;t++)0===a.key(t).indexOf(e.pre)&&u(a.key(t))}else a.clear(),c.clear()}}};
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+exports.default = function () {
+  var option = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+  var defaults = {
+    use: 'lcoal',
+    pre: '',
+    strict: false,
+    expire: null
+  };
+
+  var objectType = function objectType(value) {
+    return Object.prototype.toString.call(value);
+  };
+
+  if (objectType(option) === '[object String]') {
+    option = {
+      use: option === 's' && option === 'session' && option === 'sessionStorage' ? 's' : defaults.use,
+      pre: defaults.pre,
+      strict: defaults.strict,
+      expire: defaults.expire
+    };
+  } else if (objectType(option) === '[object Object]') {
+    var use = option['use'];
+    var pre = option['pre'];
+    var strict = option['strict'];
+    var expire = option['expire'];
+    option = {
+      use: use === 's' && use === 'session' && use === 'sessionStorage' ? 's' : defaults.use,
+      pre: objectType(pre) === '[object String]' ? pre : defaults.pre,
+      strict: objectType(strict) === '[object boolean]' ? strict : defaults.strict,
+      expire: objectType(strict) === '[object Number]' ? expire : defaults.expire
+    };
+  } else {
+    throw new Error('Wrong storage option');
+  }
+  var localStorage = window.localStorage;
+  var sessionStorage = window.sessionStorage;
+  var storage = option.use === 's' ? sessionStorage : localStorage;
+
+  var get = function get(key) {
+    if (key) {
+      key = '' + option.pre + key;
+      if (option.strict) {
+        var value = storage.getItem(key);
+        if (value) {
+          if (value.expire && value.expire > new Date().getTime() || value.expire === null) {
+            return JSON.parse(value).data;
+          } else {
+            storage.removeItem(key);
+          }
+        }
+        return null;
+      } else {
+        try {
+          return JSON.parse(storage.getItem(key));
+        } catch (_) {
+          return storage.getItem(key);
+        }
+      }
+    } else {
+      console.warn('Wrong get storage');
+    }
+  };
+
+  var _set = function _set(key, value) {
+    if (key) {
+      key = '' + option.pre + key;
+      if (objectType(value) === '[object Undefined]' || objectType(value) === '[object Null]') {
+        storage.removeItem(key);
+      } else {
+        if (option.strict) {
+          storage.setItem(key, JSON.stringify({
+            data: value,
+            expire: option.expire,
+            type: objectType(value)
+          }));
+        } else {
+          if (objectType(value) === '[object String]' || objectType(value) === '[object Number]') {
+            storage.setItem(key, value);
+          } else {
+            storage.setItem(key, JSON.stringify(value));
+          }
+        }
+      }
+    } else {
+      console.warn('Wrong set storage');
+    }
+  };
+
+  var set = function set(key, value) {
+    if (key) {
+      if (objectType(key) === '[object Array]') {
+        for (var i in key) {
+          _set(key[i].key, key[i].value);
+        }
+      } else {
+        _set(key, value);
+      }
+    } else {
+      console.warn('Wrong set storage');
+    }
+  };
+
+  var _remove = function _remove(key) {
+    if (key) {
+      storage.removeItem('' + option.pre + key);
+    } else {
+      console.warn('Wrong remove storage');
+    }
+  };
+
+  var remove = function remove(key) {
+    if (key) {
+      if (objectType(key) === '[object Array]') {
+        for (var i in key) {
+          _remove(key[i]);
+        }
+      } else {
+        _remove(key);
+      }
+    } else {
+      console.warn('Wrong remove storage');
+    }
+  };
+
+  var clear = function clear() {
+    if (option.pre) {
+      for (var i = 0; i < localStorage.length; i++) {
+        if (localStorage.key(i).indexOf(option.pre) === 0) _remove(localStorage.key(i));
+      }
+      for (var _i = 0; _i < sessionStorage.length; _i++) {
+        if (sessionStorage.key(_i).indexOf(option.pre) === 0) _remove(sessionStorage.key(_i));
+      }
+    } else {
+      sessionStorage.clear();
+      localStorage.clear();
+    }
+  };
+
+  return {
+    get: get,
+    set: set,
+    remove: remove,
+    clear: clear
+  };
+};

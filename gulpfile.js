@@ -1,14 +1,14 @@
 var gulp = require('gulp'),
     babel = require('gulp-babel'),
-    uglify = require('gulp-uglify')
+    jshint = require('gulp-jshint'),
     del = require('del');
 
 gulp.task('build', function () {
-	del(['./dist']);
+	del(['./dist/*']);
 	return gulp.src('./lib/index.js')
+		         .pipe(jshint())
 					   .pipe(babel({
 						    presets: ['es2015']
 					    }))
-					   .pipe(uglify())
 					   .pipe(gulp.dest('./dist'));
 });

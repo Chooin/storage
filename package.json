@@ -1,9 +1,9 @@
 {
   "name": "storage-web",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Storage for web",
   "main": "dist/index.js",
-  "author": "zhuning <chooin@126.com>",
+  "author": "",
   "scripts": {
     "build": "gulp build"
   },
@@ -11,7 +11,6 @@
     "type": "git",
     "url": "git+https://github.com/Chooin/storage-web.git"
   },
-  "author": "",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/Chooin/storage-web/issues"
@@ -25,6 +24,6 @@
     "gulp": "^3.9.1",
     "gulp-babel": "^7.0.0",
     "gulp-jshint": "^2.0.4",
-    "gulp-uglify": "^3.0.0"
+    "jshint": "^2.9.5"
   }
 }
