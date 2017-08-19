@@ -94,7 +94,7 @@ var Storage = function () {
 
     /**
      * Remove storage value
-     * @param  {String} key
+     * @param  {String/Array} key
      */
 
   }, {
@@ -158,7 +158,7 @@ var Storage = function () {
     key: '_remove',
     value: function _remove(key) {
       if (key) {
-        this.$s.removeItem('' + key);
+        this.$s.removeItem('' + this.defaults.pre + key);
       } else {
         console.warn('Wrong remove storage');
       }
