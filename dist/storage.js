@@ -20,7 +20,7 @@ var Storage = function () {
       };
     } else if (this._type(defaults) === '[object Object]') {
       defaults = {
-        use: defaults.use === 's' && defaults.use === 'session' && defaults.use === 'sessionStorage' ? 's' : 'lcoal',
+        use: defaults.use,
         pre: this._type(defaults.pre) === '[object String]' ? defaults.pre : '',
         strict: this._type(defaults.strict) === '[object Boolean]' ? defaults.strict : false,
         expire: this._type(defaults.expire) === '[object Number]' ? defaults.expire : null
@@ -36,7 +36,7 @@ var Storage = function () {
     }, defaults);
     this.$ls = window.localStorage;
     this.$ss = window.sessionStorage;
-    this.$s = this.defaults.use === 's' && this.defaults.use === 'session' && this.defaults.use === 'sessionStorage' ? window.sessionStorage : window.localStorage;
+    this.$s = this.defaults.use === 's' && this.defaults.use === 'session' && this.defaults.use === 'sessionStorage' ? this.$ss : this.$ls;
   }
 
   /**
