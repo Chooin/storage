@@ -7,20 +7,66 @@ npm install storage-web --save
 yarn add storage-web
 ```
 
-### 使用
+### 默认参数
 
 ``` js
-import storage from 'storage-web'
+defaults = {
+  use: 'local', // String 使用 localStorage
+  pre: '', // String 无命名空间（命名空间）
+  strict: false, // Boolean 关闭严格模式（严格模式，设置什么输出什么）
+  expire: null // Int 无过期时间
+}
+```
+
+参数描述：
+
+1. use 等于 `s`/`session`/`sessionStorage`，则使用 sessionStorage，否则使用 localStorage
+2. pre 命名空间，如：当 pre 等于 `pre_` 则 stroage 的 key 会以 `pre_` 开头
+3. strict 严格模式，设置什么输出什么，如：设置 int 型数字，则输出 int 型数字
+4. expire 过期时间，如：1503170741859，内容过期会将它从 storage 里面移除
+
+### 基本使用
+
+``` js
+import Storage from 'storage-web'
 
 // 参数
-params = {
-  use: 's', // String（使用 localStorage/sessionStorage）
-  pre: 'my_', // String（命名空间）
-  strict: true, // Boolean（严格模式，输入什么输出什么）
-  expire: new Date().getTime() + 24 * 60 * 60 * 1000 // 过期时间
+defaults = {
+  use: 's',
+  pre: 'my_',
+  strict: true,
+  expire: new Date().getTime() + 24 * 60 * 60 * 1000
 }
 
-storage(params).set('store', {})
+new Storage(defaults).set('store', {})
+
+// 或
+
+new Storage('lcoal').set('store', {})
+```
+
+
+
+### Vue.js 使用
+
+``` js
+import Storage from 'storage-web'
+
+// 默认使用
+Vue.prototype.$storage = new Storage()
+
+// Vue 中设置默认参数
+Vue.prototype.$storage = new Storage({
+  use: 's',
+  pre: 'pre_',
+  strict: true,
+  expire: new Date().getTime() + 24 * 60 * 60 * 1000
+})
+
+// 设置单个参数
+this.$storage.defaults.pre = '_pre'
+
+// 用 this.$storage 代替 new Storage() 即可
 ```
 
 ## get
@@ -28,17 +74,19 @@ storage(params).set('store', {})
 获取
 
 ``` js
-storage().get('store') // localStorage
+import Storage from 'storage-web'
 
-storage('local').get('store')  // localStorage
+new Storage().get('store') // localStorage
 
-storage('s').get('store') // sessionStorage
+new Storage('local').get('store')  // localStorage
 
-storage('session').get('store') // sessionStorage
+new Storage('s').get('store') // sessionStorage
 
-storage('sessionStorage').get('store') // sessionStorage
+new Storage('session').get('store') // sessionStorage
 
-storage({
+new Storage('sessionStorage').get('store') // sessionStorage
+
+new Storage({
   use: 's',
   pre: 'my_',
   strict: true
@@ -56,14 +104,14 @@ let storeValue = {
   store_name: 'Tmall'
 }
 
-storage({
+new Storage({
   use: 's',
   pre: 'my_',
   strict: true,
   expire: new Date().getTime() + 24 * 60 * 60 * 1000
 }).set('store', storeValue)
 
-storage().set([
+new Storage().set([
   {
     key: 'store',
     value: storeValue
@@ -77,9 +125,9 @@ storage().set([
 移除
 
 ``` js
-storage().remove('store')
+new Storage().remove('store')
 
-storage().remove(['store', 'token'])
+new Storage().remove(['store', 'token'])
 ```
 
 ## clear
@@ -87,7 +135,7 @@ storage().remove(['store', 'token'])
 可以清空当前作用域下的 storage
 
 ``` js
-storage({ pre: 'my_' }).clear() // 清空 localStorage 和 sessionStorage 下所有以 'my_' 开头的
+new Storage({ pre: 'my_' }).clear() // 清空 localStorage 和 sessionStorage 下所有以 'my_' 开头的
 
-storage().clear() // 清空所有 localStorage 和 sessionStorage
+new Storage().clear() // 清空所有 localStorage 和 sessionStorage
 ```

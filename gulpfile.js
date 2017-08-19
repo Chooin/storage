@@ -5,7 +5,7 @@ var gulp = require('gulp'),
 
 gulp.task('build', function () {
 	del(['./dist/*']);
-	return gulp.src('./lib/index.js')
+	return gulp.src('./lib/storage.js')
 		         .pipe(jshint())
 					   .pipe(babel({
 						    presets: ['es2015']
