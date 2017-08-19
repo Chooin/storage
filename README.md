@@ -10,6 +10,7 @@ yarn add storage-web
 ### 使用
 
 ``` js
+import storage from 'storage-web'
 // 参数
 params = {
   use: 's', // String（使用 localStorage/sessionStorage）
@@ -52,7 +53,7 @@ storage({
   use: 's',
   pre: 'my_',
   strict: true,
-  expire: new Date().getTime()
+  expire: new Date().getTime() + 24 * 60 * 60 * 1000
 }).set('store', storeValue)
 // 或
 storage().set([
