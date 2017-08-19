@@ -84,7 +84,7 @@ new Storage('session').get('store') // sessionStorage
 
 new Storage('sessionStorage').get('store') // sessionStorage
 
-new Storage({ // sessionStorage name: my_store
+new Storage({ // sessionStorage name: pre_store
   use: 's',
   pre: 'pre_',
   strict: true
@@ -139,7 +139,7 @@ new Storage().remove(['store', 'token'])
 ``` js
 import Storage from 'storage-web'
 
-new Storage({ pre: 'pre_' }).clear() // 清空 localStorage 和 sessionStorage 下所有以 'my_' 开头的
+new Storage({ pre: 'pre_' }).clear() // 清空 localStorage 和 sessionStorage 下所有以 'pre_' 开头的
 
 new Storage().clear() // 清空所有 localStorage 和 sessionStorage
 ```
