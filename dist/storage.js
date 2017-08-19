@@ -53,7 +53,7 @@ var Storage = function () {
         key = '' + this.defaults.pre + key;
         if (this.defaults.strict) {
           var value = this.$s.getItem(key);
-          if (this._type(value) === '[object Null]') return null;
+          if (value === null) return null;
           try {
             value = JSON.parse(value);
           } catch (_) {
@@ -72,7 +72,7 @@ var Storage = function () {
           }
         }
       } else {
-        console.warn('Wrong get storage');
+        this._console('Wrong get storage');
       }
     }
 
@@ -85,7 +85,7 @@ var Storage = function () {
   }, {
     key: 'set',
     value: function set(key, value) {
-      if (this._type(key) === '[object Array]') {
+      if (Array.isArray(key)) {
         for (var i in key) {
           this._set(key[i].key, key[i].value);
         }
@@ -102,7 +102,7 @@ var Storage = function () {
   }, {
     key: 'remove',
     value: function remove(key) {
-      if (this._type(key) === '[object Array]') {
+      if (Array.isArray(key)) {
         for (var i in key) {
           this._remove(key[i]);
         }
@@ -135,7 +135,7 @@ var Storage = function () {
     value: function _set(key, value) {
       if (key) {
         key = '' + this.defaults.pre + key;
-        if (this._type(value) === '[object Undefined]' || this._type(value) === '[object Null]') {
+        if (typeof value === 'undefined' || value === null) {
           this.$s.removeItem(key);
         } else {
           if (this.defaults.strict) {
@@ -153,7 +153,7 @@ var Storage = function () {
           }
         }
       } else {
-        console.warn('Wrong set storage');
+        this._console('Wrong set storage');
       }
     }
   }, {
@@ -162,13 +162,18 @@ var Storage = function () {
       if (key) {
         this.$s.removeItem('' + this.defaults.pre + key);
       } else {
-        console.warn('Wrong remove storage');
+        this._console('Wrong remove storage');
       }
     }
   }, {
     key: '_type',
     value: function _type(value) {
       return Object.prototype.toString.call(value);
+    }
+  }, {
+    key: '_console',
+    value: function _console(value) {
+      if (typeof console !== 'undefined') console.warn(value);
     }
   }]);
 
