@@ -53,15 +53,17 @@ var Storage = function () {
         key = '' + this.defaults.pre + key;
         if (this.defaults.strict) {
           var value = this.$s.getItem(key);
-          if (value) {
+          if (this._type(value) === '[object Null]') return null;
+          try {
             value = JSON.parse(value);
-            if (value.expire && value.expire > new Date().getTime() || value.expire === null) {
-              return value.data;
-            } else {
-              this.$s.removeItem(key);
-            }
+          } catch (_) {
+            return null;
           }
-          return null;
+          if (value.expire && value.expire > new Date().getTime() || value.expire === null) {
+            return value.data;
+          } else {
+            this.$s.removeItem(key);
+          }
         } else {
           try {
             return JSON.parse(this.$s.getItem(key));
