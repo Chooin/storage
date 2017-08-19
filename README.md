@@ -11,6 +11,7 @@ yarn add storage-web
 
 ``` js
 import storage from 'storage-web'
+
 // 参数
 params = {
   use: 's', // String（使用 localStorage/sessionStorage）
@@ -18,6 +19,7 @@ params = {
   strict: true, // Boolean（严格模式，输入什么输出什么）
   expire: new Date().getTime() + 24 * 60 * 60 * 1000 // 过期时间
 }
+
 storage(params).set('store', {})
 ```
 
@@ -27,10 +29,15 @@ storage(params).set('store', {})
 
 ``` js
 storage().get('store') // localStorage
+
 storage('local').get('store')  // localStorage
+
 storage('s').get('store') // sessionStorage
+
 storage('session').get('store') // sessionStorage
+
 storage('sessionStorage').get('store') // sessionStorage
+
 storage({
   use: 's',
   pre: 'my_',
@@ -55,7 +62,7 @@ storage({
   strict: true,
   expire: new Date().getTime() + 24 * 60 * 60 * 1000
 }).set('store', storeValue)
-// 或
+
 storage().set([
   {
     key: 'store',
@@ -71,7 +78,7 @@ storage().set([
 
 ``` js
 storage().remove('store')
-// 或
+
 storage().remove(['store', 'token'])
 ```
 
@@ -81,5 +88,6 @@ storage().remove(['store', 'token'])
 
 ``` js
 storage({ pre: 'my_' }).clear() // 清空 localStorage 和 sessionStorage 下所有以 'my_' 开头的
+
 storage().clear() // 清空所有 localStorage 和 sessionStorage
 ```
