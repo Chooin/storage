@@ -98,6 +98,8 @@ new Storage({
 设置
 
 ``` js
+import Storage from 'storage-web'
+
 // 支持类型 String,Number,Boolean,Array,Object,Null,Undefined...
 let storeValue = {
   store_id: 1,
@@ -125,6 +127,8 @@ new Storage().set([
 移除
 
 ``` js
+import Storage from 'storage-web'
+
 new Storage().remove('store')
 
 new Storage().remove(['store', 'token'])
@@ -135,6 +139,8 @@ new Storage().remove(['store', 'token'])
 可以清空当前作用域下的 storage
 
 ``` js
+import Storage from 'storage-web'
+
 new Storage({ pre: 'my_' }).clear() // 清空 localStorage 和 sessionStorage 下所有以 'my_' 开头的
 
 new Storage().clear() // 清空所有 localStorage 和 sessionStorage
