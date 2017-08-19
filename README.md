@@ -32,8 +32,8 @@ import Storage from 'storage-web'
 
 // 参数
 defaults = {
-  use: 's',
-  pre: 'my_',
+  use: 'session',
+  pre: 'pre_',
   strict: true,
   expire: new Date().getTime() + 24 * 60 * 60 * 1000
 }
@@ -42,7 +42,7 @@ new Storage(defaults).set('store', {})
 
 // 或
 
-new Storage('lcoal').set('store', {})
+new Storage('session').set('store', {})
 ```
 
 
@@ -64,7 +64,7 @@ Vue.prototype.$storage = new Storage({
 })
 
 // 设置单个参数
-this.$storage.defaults.pre = '_pre'
+this.$storage.defaults.pre = 'pre_'
 
 // 用 this.$storage 代替 new Storage() 即可
 ```
@@ -78,19 +78,17 @@ import Storage from 'storage-web'
 
 new Storage().get('store') // localStorage
 
-new Storage('local').get('store')  // localStorage
-
 new Storage('s').get('store') // sessionStorage
 
 new Storage('session').get('store') // sessionStorage
 
 new Storage('sessionStorage').get('store') // sessionStorage
 
-new Storage({
+new Storage({ // sessionStorage name: my_store
   use: 's',
-  pre: 'my_',
+  pre: 'pre_',
   strict: true
-}).get('store')  // sessionStorage name: my_store
+}).get('store')
 ```
 
 ## set
@@ -108,7 +106,7 @@ let storeValue = {
 
 new Storage({
   use: 's',
-  pre: 'my_',
+  pre: 'pre_',
   strict: true,
   expire: new Date().getTime() + 24 * 60 * 60 * 1000
 }).set('store', storeValue)
@@ -141,7 +139,7 @@ new Storage().remove(['store', 'token'])
 ``` js
 import Storage from 'storage-web'
 
-new Storage({ pre: 'my_' }).clear() // 清空 localStorage 和 sessionStorage 下所有以 'my_' 开头的
+new Storage({ pre: 'pre_' }).clear() // 清空 localStorage 和 sessionStorage 下所有以 'my_' 开头的
 
 new Storage().clear() // 清空所有 localStorage 和 sessionStorage
 ```
