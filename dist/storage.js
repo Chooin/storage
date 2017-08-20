@@ -49,9 +49,7 @@ var Storage = function () {
   _createClass(Storage, [{
     key: 'get',
     value: function get(key) {
-      if (this._isUndefinedOrNull(key)) {
-        this._console('Wrong get storage');
-      } else {
+      if (this._isDef(key)) {
         key = '' + this.defaults.pre + key;
         if (this.defaults.strict) {
           var value = this.$s.getItem(key);
@@ -75,6 +73,8 @@ var Storage = function () {
             return this.$s.getItem(key);
           }
         }
+      } else {
+        this._console('Wrong get storage');
       }
     }
 
@@ -135,13 +135,9 @@ var Storage = function () {
   }, {
     key: '_set',
     value: function _set(key, value) {
-      if (this._isUndefinedOrNull(key)) {
-        this._console('Wrong set storage');
-      } else {
+      if (this._isDef(key)) {
         key = '' + this.defaults.pre + key;
-        if (this._isUndefinedOrNull(value)) {
-          this.$s.removeItem(key);
-        } else {
+        if (this._isDef(value)) {
           if (this.defaults.strict) {
             this.$s.setItem(key, JSON.stringify({
               data: value,
@@ -155,7 +151,11 @@ var Storage = function () {
               this.$s.setItem(key, JSON.stringify(value));
             }
           }
+        } else {
+          this.$s.removeItem(key);
         }
+      } else {
+        this._console('Wrong set storage');
       }
     }
   }, {
@@ -169,18 +169,18 @@ var Storage = function () {
     }
   }, {
     key: '_type',
-    value: function _type(value) {
-      return Object.prototype.toString.call(value);
+    value: function _type(v) {
+      return Object.prototype.toString.call(v);
     }
   }, {
     key: '_console',
-    value: function _console(value) {
-      if (typeof console !== 'undefined') console.warn(value);
+    value: function _console(v) {
+      if (typeof console !== 'undefined') console.warn(v);
     }
   }, {
-    key: '_isUndefinedOrNull',
-    value: function _isUndefinedOrNull(value) {
-      return typeof value === 'undefined' || value === null;
+    key: '_isDef',
+    value: function _isDef(v) {
+      return typeof v !== 'undefined' && v !== null;
     }
   }]);
 

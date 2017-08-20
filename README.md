@@ -134,7 +134,7 @@ new Storage().remove(['store', 'token'])
 
 ## clear
 
-可以清空当前作用域下的 storage
+清空
 
 ``` js
 import Storage from 'storage-web'
