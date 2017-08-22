@@ -1,5 +1,69 @@
 # storage-web
 
+### window.localStorage/window.sessionStorage 对比 stroage-web
+
+``` js
+import Storage from 'storage-web'
+
+// String 处理
+
+window.localStorage.setItem('value', 'string')
+JSON.stringify(window.localStorage.getItem('value')) // string
+
+new Storage().set('value', 'string')
+new Storage().get('value') // string
+
+//------------------------------------------------------------------------
+
+// Number 处理
+
+window.localStorage.setItem('value', 1)
+JSON.stringify(window.localStorage.getItem('value')) // number
+
+new Storage().set('value', 1)
+new Storage().get('value') // number
+
+//------------------------------------------------------------------------
+
+// Array
+
+window.localStorage.setItem('value', [1, 2, 3])
+JSON.stringify(window.localStorage.getItem('value')) // array
+
+new Storage().set('value', [1, 2, 3])
+new Storage().get('value') // array
+
+//------------------------------------------------------------------------
+
+// Object
+
+window.localStorage.setItem('store', JSON.stringify({ store_name: 'Tmall' }))
+JSON.stringify(window.localStorage.getItem('store')) // object
+
+new Storage().set('value', { store_name: 'Tmall' })
+new Storage().get('value') // object
+
+//------------------------------------------------------------------------
+
+// Null
+
+window.localStorage.setItem('value', null) // 设置 storage 的值为 'null'
+JSON.stringify(window.localStorage.getItem('value')) // 返回 null
+
+new Storage().set('value', null) // 清空 storage 中的 value 值
+new Storage().get('value') // null
+
+// ------------------------------------------------------------------------
+
+// Undefined
+
+window.localStorage.setItem('value', undefined) // 设置 storage 的值为 'undefined'
+JSON.stringify(window.localStorage.getItem('value')) // 返回 'undefined'
+
+new Storage().set('value', undefined) // 清空 storage 中的 value 值
+new Storage().get('value') // 返回 null
+```
+
 ### 安装
 ``` sh
 npm install storage-web --save
