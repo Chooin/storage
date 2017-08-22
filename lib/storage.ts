@@ -1,5 +1,12 @@
+type Key = string | number
+
 export default class Storage {
-  constructor (defaults = {}) {
+  protected $ls
+  protected $ss
+  protected $s
+  protected defaults
+
+  constructor (defaults) {
     if (this._type(defaults) === '[object String]') {
       this.defaults = {
         use: defaults,
@@ -29,7 +36,7 @@ export default class Storage {
    * @param  {String} key
    * @return {*}
    */
-  get (key) {
+  get (key: Key) {
     if (this._isDef(key)) {
       key = `${this.defaults.pre}${key}`
       if (this.defaults.strict) {
@@ -64,7 +71,7 @@ export default class Storage {
    * @param  {String/Array} key
    * @param  {*} value
    */
-  set (key, value) {
+  set (key: Key | {key: string | number, value: any}[], value: any) {
     if (Array.isArray(key)) {
       for (let i in key) this._set(key[i].key, key[i].value)
     } else {
@@ -76,7 +83,7 @@ export default class Storage {
    * Remove storage value
    * @param  {String/Array} key
    */
-  remove (key) {
+  remove (key: Key) {
     if (Array.isArray(key)) {
       for (let i in key) this._remove(key[i])
     } else {
@@ -101,7 +108,7 @@ export default class Storage {
     }
   }
 
-  _set (key, value) {
+  _set (key: Key, value: any) {
     if (this._isDef(key)) {
       key = `${this.defaults.pre}${key}`
       if (this._isDef(value)) {
@@ -126,7 +133,7 @@ export default class Storage {
     }
   }
 
-  _remove (key) {
+  _remove (key: Key) {
     if (key) {
       this.$s.removeItem(`${this.defaults.pre}${key}`)
     } else {
@@ -134,15 +141,15 @@ export default class Storage {
     }
   }
 
-  _type (v) {
+  _type (v: any): string {
     return Object.prototype.toString.call(v)
   }
 
-  _console (v) {
+  _console (v: string): void {
     if (typeof console !== 'undefined') console.warn(v)
   }
 
-  _isDef (v) {
+  _isDef (v: any): boolean {
     return typeof v !== 'undefined' && v !== null
   }
 }

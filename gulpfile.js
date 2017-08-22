@@ -6,9 +6,9 @@ var gulp = require('gulp'),
 gulp.task('build', function () {
 	del(['./dist/*']);
 	return gulp.src('./lib/storage.js')
-		         .pipe(jshint())
-					   .pipe(babel({
-						    presets: ['es2015']
-					    }))
-					   .pipe(gulp.dest('./dist'));
+	.pipe(jshint())
+	.pipe(babel({
+		presets: ['es2015']
+	}))
+	.pipe(gulp.dest('./dist'));
 });

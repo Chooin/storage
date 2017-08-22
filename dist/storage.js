@@ -15,11 +15,14 @@ var Storage = function () {
     _classCallCheck(this, Storage);
 
     if (this._type(defaults) === '[object String]') {
-      defaults = {
-        use: defaults
+      this.defaults = {
+        use: defaults,
+        pre: '',
+        strict: false,
+        expire: null
       };
     } else if (this._type(defaults) === '[object Object]') {
-      defaults = {
+      this.defaults = {
         use: defaults.use,
         pre: this._type(defaults.pre) === '[object String]' ? defaults.pre : '',
         strict: this._type(defaults.strict) === '[object Boolean]' ? defaults.strict : false,
@@ -28,12 +31,6 @@ var Storage = function () {
     } else {
       throw new Error('Wrong storage option');
     }
-    this.defaults = Object.assign({
-      use: 'lcoal',
-      pre: '',
-      strict: false,
-      expire: null
-    }, defaults);
     this.$ls = window.localStorage;
     this.$ss = window.sessionStorage;
     this.$s = this.defaults.use === 's' && this.defaults.use === 'session' && this.defaults.use === 'sessionStorage' ? this.$ss : this.$ls;
