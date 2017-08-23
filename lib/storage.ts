@@ -11,14 +11,14 @@ export default class Storage {
       this.defaults = {
         use: defaults,
         pre: '',
-        strict: false,
+        strict: true,
         expire: null
       }
     } else if (this._type(defaults) === '[object Object]') {
       this.defaults = {
         use: defaults.use,
         pre: this._type(defaults.pre) === '[object String]' ? defaults.pre : '',
-        strict: this._type(defaults.strict) === '[object Boolean]' ? defaults.strict : false,
+        strict: this._type(defaults.strict) === '[object Boolean]' ? defaults.strict : true,
         expire: this._type(defaults.expire) === '[object Number]' ? defaults.expire : null
       }
     } else {

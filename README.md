@@ -1,68 +1,22 @@
 # storage-web
 
-### window.localStorage/window.sessionStorage 对比 stroage-web
+尽量减少开发对 storage 的类型判断
+
+### stroage-web 对比 localStorage/sessionStorage
 
 ``` js
 import Storage from 'storage-web'
 
-// String 处理
+let storage = new Storage()
 
-window.localStorage.setItem('value', 'string')
-window.localStorage.getItem('value') // string
+window.localStorage.setItem('store', 1)
+window.localStorage.setItem('store', '1')
+window.localStorage.getItem('store') // 存储的值是一样，了解系统的人才知道要转换成字符串还是数字
 
-new Storage().set('value', 'string')
-new Storage().get('value') // string
-
-//------------------------------------------------------------------------
-
-// Number 处理
-
-window.localStorage.setItem('value', 1)
-JSON.parse(window.localStorage.getItem('value')) // number
-
-new Storage().set('value', 1)
-new Storage().get('value') // number
-
-//------------------------------------------------------------------------
-
-// Array
-
-window.localStorage.setItem('value', [1, 2, 3])
-JSON.parse(window.localStorage.getItem('value')) // array
-
-new Storage().set('value', [1, 2, 3])
-new Storage().get('value') // array
-
-//------------------------------------------------------------------------
-
-// Object
-
-window.localStorage.setItem('store', JSON.stringify({ store_name: 'Tmall' }))
-JSON.parse(window.localStorage.getItem('store')) // object
-
-new Storage().set('value', { store_name: 'Tmall' })
-new Storage().get('value') // object
-
-//------------------------------------------------------------------------
-
-// Null
-
-window.localStorage.setItem('value', null) // 设置 storage 的值为 'null'
-JSON.parse(window.localStorage.getItem('value')) // 返回 null
-
-new Storage().set('value', null) // 清空 storage 中的 value 值
-new Storage().get('value') // null
-
-// ------------------------------------------------------------------------
-
-// Undefined
-
-window.localStorage.setItem('value', undefined) // 设置 storage 的值为 'undefined'
-JSON.parse(window.localStorage.getItem('value')) // 返回 'undefined'
-
-new Storage().set('value', undefined) // 清空 storage 中的 value 值
-new Storage().get('value') // 返回 null
+storage.set('store', 1)
+storage.get('store') // Number
 ```
+
 
 ### 安装
 ``` sh
@@ -77,7 +31,7 @@ yarn add storage-web
 defaults = {
   use: 'local', // String 使用 localStorage
   pre: '', // String 无前缀（storage的前缀，如：pre_store）
-  strict: false, // Boolean 关闭严格模式（严格模式，设置什么输出什么）
+  strict: true, // Boolean 开启严格模式（严格模式，设置什么输出什么）
   expire: null // Int 无过期时间
 }
 ```
@@ -108,8 +62,6 @@ new Storage(defaults).set('store', {})
 
 new Storage('session').set('store', {})
 ```
-
-
 
 ### Vue.js 使用
 
