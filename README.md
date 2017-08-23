@@ -8,7 +8,7 @@ import Storage from 'storage-web'
 // String 处理
 
 window.localStorage.setItem('value', 'string')
-JSON.parse(window.localStorage.getItem('value')) // string
+window.localStorage.getItem('value') // string
 
 new Storage().set('value', 'string')
 new Storage().get('value') // string
