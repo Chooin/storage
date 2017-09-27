@@ -18,12 +18,14 @@
   "homepage": "https://github.com/Chooin/storage-web#readme",
   "dependencies": {},
   "devDependencies": {
+    "babel-core": "^6.26.0",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",
     "del": "^3.0.0",
     "gulp": "^3.9.1",
     "gulp-babel": "^7.0.0",
     "gulp-jshint": "^2.0.4",
+    "gulp-uglify": "^3.0.0",
     "jshint": "^2.9.5"
   }
 }
