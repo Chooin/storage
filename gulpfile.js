@@ -8,9 +8,9 @@ gulp.task('build', function () {
 	del(['./dist/*']);
 	return gulp.src('./lib/storage.js')
 	.pipe(jshint())
-  .pipe(uglify())
 	.pipe(babel({
 		presets: ['es2015']
 	}))
+  .pipe(uglify())
 	.pipe(gulp.dest('./dist'));
 });
