@@ -148,7 +148,6 @@ new Storage().set([
 ])
 ```
 
-
 ## remove
 
 移除
