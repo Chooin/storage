@@ -42,19 +42,19 @@ yarn add storage-web
 
 ``` js
 defaults = {
-  use: 'local', // String 使用 localStorage
-  pre: '', // String 无前缀（storage的前缀，如：pre_store）
-  strict: true, // Boolean 开启严格模式（严格模式，设置什么输出什么）
-  expire: null // Int 无过期时间
+  use: 'local',
+  pre: '',
+  strict: true,
+  expire: null
 }
 ```
 
-参数描述：
+参数：
 
-1. use 等于 `s`/`session`/`sessionStorage`，则使用 sessionStorage，否则使用 localStorage
-2. pre 前缀，如：当 pre 等于 `pre_` 则 stroage 的 key 会以 `pre_` 开头
-3. strict 严格模式，设置什么输出什么，如：设置 int 型数字，则输出 int 型数字
-4. expire 过期时间，如：1503170741859，内容过期会将它从 storage 里面移除
++ {String} use storage 类型，值为 `s`/`session`/`sessionStorage` 则使用 sessionStorage，否则使用 localStorage
++ {String} pre 前缀，如：当 pre 等于 `pre_` 则 stroage 的 key 会以 `pre_` 开头
++ {Boolean} strict 模式，值为 `true` 则设置什么输出什么，如：设置数字 1，获取时也是数字 1
++ {Int} expire 过期时间，如：1503170741859，内容过期则无法获取值
 
 ### 基本使用
 
