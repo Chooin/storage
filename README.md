@@ -6,23 +6,9 @@
 
 > 尽量减少开发对 storage 的类型判断
 
-### stroage-web 对比 localStorage/sessionStorage
-
-``` js
-import Storage from 'storage-web'
-
-let storage = new Storage()
-
-window.localStorage.setItem('store', 1)
-window.localStorage.setItem('store', '1')
-window.localStorage.getItem('store') // 存储的值是一样，了解系统的人才知道要转换成字符串还是数字
-
-storage.set('store', 1)
-storage.get('store') // Number
-```
-
 ### 目录
 
+- [与localStorage/sessionStorage对比](#与localStorage/sessionStorage对比)
 - [安装](#安装)
 - [默认参数](#默认参数)
 - [基本使用](#基本使用)
@@ -31,6 +17,54 @@ storage.get('store') // Number
 - [set](#set)
 - [remove](#remove)
 - [clear](#clear)
+
+### 与localStorage/sessionStorage对比
+
+``` js
+import Storage from 'storage-web'
+
+let storage = new Storage()
+
+// 不设置
+window.localStorage.getItem('store') // null 😃
+storage.get('store') // null 😃
+
+// 设置 Number
+window.localStorage.setItem('store', 1) // {Number}
+window.localStorage.getItem('store') // {String} 😩
+storage.set('store', 1)
+storage.get('store') // {Number} 😃
+
+// 设置 Object
+window.localStorage.setItem('store', {}) // {Object}
+window.localStorage.getItem('store') // {String} 😩
+storage.set('store', {})
+storage.get('store') // {Object} 😃
+
+// 设置 Boolean
+window.localStorage.setItem('store', false)
+window.localStorage.getItem('store') // {String} 😩
+storage.set('store', false)
+storage.get('store') // {Boolean} 😃
+
+// 设置 String
+window.localStorage.setItem('store', 'Tmall')
+window.localStorage.getItem('store') // {String} 😃
+storage.set('store', 'Tmall')
+storage.get('store') // {String} 😃
+
+// 设置 undefined
+window.localStorage.setItem('store', undefined)
+window.localStorage.getItem('store') // {String} 😩
+storage.set('store', undefined)
+storage.get('store') // null
+
+// 设置 null
+window.localStorage.setItem('store', null)
+window.localStorage.getItem('store') // {String} 😩
+storage.set('store', null)
+storage.get('store') // null 😃
+```
 
 ### 安装
 ``` sh
