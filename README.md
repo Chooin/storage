@@ -4,7 +4,7 @@
 ![JS gzip size](http://img.badgesize.io/https://unpkg.com/storage-web/dist/storage.js?compression=gzip&label=gzip%20size:%20JS)
 [![npm package](https://img.shields.io/npm/v/storage-web.svg)](https://www.npmjs.org/package/storage-web)
 
-> 尽量减少开发对 storage 的类型判断
+> 对 web 端的 storage 操作，自动解析数据类型，支持 storage 过期时间设置，支持 Vue.js
 
 ### 目录
 
@@ -30,13 +30,13 @@ window.localStorage.getItem('store') // null 😃
 storage.get('store') // null 😃
 
 // 设置 Number
-window.localStorage.setItem('store', 1) // {Number}
+window.localStorage.setItem('store', 1)
 window.localStorage.getItem('store') // {String} 😩
 storage.set('store', 1)
 storage.get('store') // {Number} 😃
 
 // 设置 Object
-window.localStorage.setItem('store', {}) // {Object}
+window.localStorage.setItem('store', {})
 window.localStorage.getItem('store') // {String} 😩
 storage.set('store', {})
 storage.get('store') // {Object} 😃
@@ -48,7 +48,7 @@ storage.set('store', false)
 storage.get('store') // {Boolean} 😃
 
 // 设置 String
-window.localStorage.setItem('store', 'Tmall')
+window.localStorage.setItem('store', 'store')
 window.localStorage.getItem('store') // {String} 😃
 storage.set('store', 'Tmall')
 storage.get('store') // {String} 😃
