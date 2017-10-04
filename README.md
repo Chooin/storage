@@ -41,7 +41,7 @@ window.localStorage.getItem('store') // {String} 😩
 storage.set('store', {})
 storage.get('store') // {Object} 😃
 
-// 设置 Object
+// 设置 Array
 window.localStorage.setItem('store', [])
 window.localStorage.getItem('store') // {String} 😩
 storage.set('store', [])
