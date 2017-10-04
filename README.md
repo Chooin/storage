@@ -12,7 +12,7 @@
 - [安装](#安装)
 - [默认参数](#默认参数)
 - [基本使用](#基本使用)
-- [在vue使用](#在vue使用)
+- [在vue中使用](#在vue中使用)
 - [get](#get)
 - [set](#set)
 - [remove](#remove)
@@ -117,7 +117,7 @@ new Storage(defaults).set('store', {})
 new Storage('session').set('store', {})
 ```
 
-### 在vue使用
+### 在vue中使用
 
 ``` js
 import Storage from 'storage-web'
