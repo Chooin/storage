@@ -8,17 +8,17 @@
 
 ### 目录
 
-- [与localStorage/sessionStorage对比](#与localStorage/sessionStorage对比)
+- [对比](#对比)
 - [安装](#安装)
 - [默认参数](#默认参数)
 - [基本使用](#基本使用)
-- [Vue.js使用](#Vue.js使用)
+- [在vue中使用](#在vue中使用)
 - [get](#get)
 - [set](#set)
 - [remove](#remove)
 - [clear](#clear)
 
-### 与localStorage/sessionStorage对比
+### 对比
 
 ``` js
 import Storage from 'storage-web'
@@ -41,6 +41,12 @@ window.localStorage.getItem('store') // {String} 😩
 storage.set('store', {})
 storage.get('store') // {Object} 😃
 
+// 设置 Array
+window.localStorage.setItem('store', [])
+window.localStorage.getItem('store') // {String} 😩
+storage.set('store', [])
+storage.get('store') // {Array} 😃
+
 // 设置 Boolean
 window.localStorage.setItem('store', false)
 window.localStorage.getItem('store') // {String} 😩
@@ -57,7 +63,7 @@ storage.get('store') // {String} 😃
 window.localStorage.setItem('store', undefined)
 window.localStorage.getItem('store') // {String} 😩
 storage.set('store', undefined)
-storage.get('store') // null
+storage.get('store') // null 😃😃
 
 // 设置 null
 window.localStorage.setItem('store', null)
@@ -111,7 +117,7 @@ new Storage(defaults).set('store', {})
 new Storage('session').set('store', {})
 ```
 
-### Vue.js使用
+### 在vue中使用
 
 ``` js
 import Storage from 'storage-web'
@@ -130,7 +136,8 @@ Vue.prototype.$storage = new Storage({
 // 设置单个参数
 this.$storage.defaults.pre = 'pre_'
 
-// 用 this.$storage 代替 new Storage() 即可
+// 用 this.$storage 代替 new Storage() 即可，如：
+this.$storage.get('store')
 ```
 
 ## get
@@ -148,11 +155,11 @@ new Storage('session').get('store') // sessionStorage
 
 new Storage('sessionStorage').get('store') // sessionStorage
 
-new Storage({ // sessionStorage name: pre_store
+new Storage({
   use: 's',
   pre: 'pre_',
   strict: true
-}).get('store')
+}).get('store') // sessionStorage name: pre_store
 ```
 
 ## set
