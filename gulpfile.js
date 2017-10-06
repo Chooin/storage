@@ -11,6 +11,6 @@ gulp.task('build', function () {
 	.pipe(babel({
 		presets: ['es2015']
 	}))
-  // .pipe(uglify())
+  .pipe(uglify())
 	.pipe(gulp.dest('./dist'));
 });
