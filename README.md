@@ -23,53 +23,51 @@
 ``` js
 import Storage from 'storage-web'
 
-let storage = new Storage()
-
 // 不设置
 window.localStorage.getItem('store') // null 😃
-storage.get('store') // null 😃
+Storage.get('store') // null 😃
 
 // 设置 Number
 window.localStorage.setItem('store', 1)
 window.localStorage.getItem('store') // {String} 😩
-storage.set('store', 1)
-storage.get('store') // {Number} 😃
+Storage.set('store', 1)
+Storage.get('store') // {Number} 😃
 
 // 设置 Object
 window.localStorage.setItem('store', {})
 window.localStorage.getItem('store') // {String} 😩
-storage.set('store', {})
-storage.get('store') // {Object} 😃
+Storage.set('store', {})
+Storage.get('store') // {Object} 😃
 
 // 设置 Array
 window.localStorage.setItem('store', [])
 window.localStorage.getItem('store') // {String} 😩
-storage.set('store', [])
-storage.get('store') // {Array} 😃
+Storage.set('store', [])
+Storage.get('store') // {Array} 😃
 
 // 设置 Boolean
 window.localStorage.setItem('store', false)
 window.localStorage.getItem('store') // {String} 😩
-storage.set('store', false)
-storage.get('store') // {Boolean} 😃
+Storage.set('store', false)
+Storage.get('store') // {Boolean} 😃
 
 // 设置 String
 window.localStorage.setItem('store', 'store')
 window.localStorage.getItem('store') // {String} 😃
-storage.set('store', 'Tmall')
-storage.get('store') // {String} 😃
+Storage.set('store', 'Tmall')
+Storage.get('store') // {String} 😃
 
 // 设置 undefined
 window.localStorage.setItem('store', undefined)
 window.localStorage.getItem('store') // {String} 😩
-storage.set('store', undefined)
-storage.get('store') // null 😃😃
+Storage.set('store', undefined)
+Storage.get('store') // null 😃😃
 
 // 设置 null
 window.localStorage.setItem('store', null)
 window.localStorage.getItem('store') // {String} 😩
-storage.set('store', null)
-storage.get('store') // null 😃
+Storage.set('store', null)
+Storage.get('store') // null 😃
 ```
 
 ### 安装
@@ -81,40 +79,26 @@ yarn add storage-web
 
 ### 默认参数
 
-``` js
-defaults = {
-  use: 'local',
-  pre: '',
-  strict: true,
-  expire: null
-}
-```
-
-参数：
-
-+ {String} use storage 类型，值为 `s`/`session`/`sessionStorage` 则使用 sessionStorage，否则使用 localStorage
-+ {String} pre 前缀，如：当 pre 等于 `pre_` 则 stroage 的 key 会以 `pre_` 开头
-+ {Boolean} strict 模式，值为 `true` 则设置什么输出什么，如：设置数字 1，获取时也是数字 1
-+ {Int} expire 过期时间，如：1503170741859，内容过期则无法获取值
++ {String} use storage 类型，默认：localStorage。值为 `s`/`session`/`sessionStorage` 则使用 sessionStorage，否则使用 localStorage
++ {String} pre 前缀，默认：''。如：当 pre 等于 `pre_` 则 stroage 的 key 会以 `pre_` 开头
++ {Boolean} strict 模式，默认：true。值为 `true` 则设置什么输出什么，如：设置数字 1，获取时也是数字 1
++ {Int} expire 过期时间，默认：null。如：1503170741859，内容过期则无法获取值
 
 ### 基本使用
 
 ``` js
 import Storage from 'storage-web'
 
-// 参数
-defaults = {
+Storage.set('store', {}, {
   use: 'session',
   pre: 'pre_',
   strict: true,
   expire: new Date().getTime() + 24 * 60 * 60 * 1000
-}
-
-new Storage(defaults).set('store', {})
-
+})
 // 或
-
-new Storage('session').set('store', {})
+Storage().set('store', {}, {
+  use: 'session'
+})
 ```
 
 ### 在vue中使用
@@ -155,11 +139,11 @@ new Storage('session').get('store') // sessionStorage
 
 new Storage('sessionStorage').get('store') // sessionStorage
 
-new Storage({
+Storage.get('store', {
   use: 's',
   pre: 'pre_',
   strict: true
-}).get('store') // sessionStorage name: pre_store
+}) // sessionStorage name: pre_store
 ```
 
 ## set
@@ -175,14 +159,14 @@ let storeValue = {
   store_name: 'Tmall'
 }
 
-new Storage({
+Storage.set('store', storeValue, {
   use: 's',
   pre: 'pre_',
   strict: true,
   expire: new Date().getTime() + 24 * 60 * 60 * 1000
-}).set('store', storeValue)
+})
 
-new Storage().set([
+Storage.set([
   {
     key: 'store',
     value: storeValue
@@ -197,9 +181,9 @@ new Storage().set([
 ``` js
 import Storage from 'storage-web'
 
-new Storage().remove('store')
+Storage.remove('store')
 
-new Storage().remove(['store', 'token'])
+Storage.remove(['store', 'token'])
 ```
 
 ## clear
@@ -209,7 +193,9 @@ new Storage().remove(['store', 'token'])
 ``` js
 import Storage from 'storage-web'
 
-new Storage({ pre: 'pre_' }).clear() // 清空 localStorage 和 sessionStorage 下所有以 'pre_' 开头的
+Storage.clear({
+  pre: 'pre_'
+}) // 清空 localStorage 和 sessionStorage 下所有以 'pre_' 开头的
 
-new Storage().clear() // 清空所有 localStorage 和 sessionStorage
+Storage().clear() // 清空所有 localStorage 和 sessionStorage
 ```
