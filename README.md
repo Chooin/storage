@@ -128,23 +128,23 @@ import Storage from 'storage-web'
 
 Storage.get('store') // localStorage
 
-Storage.get('store', {
+Storage.get('store', { // sessionStorage
   use: 's'
-}) // sessionStorage
+})
 
-Storage.get('store', {
+Storage.get('store', { // sessionStorage
   use: 'session'
-}) // sessionStorage
+})
 
-Storage.get('store', {
+Storage.get('store', { // sessionStorage
   use: 'sessionStorage'
-}) // sessionStorage
+})
 
-Storage.get('store', {
+Storage.get('store', { // sessionStorage name: pre_store
   use: 's',
   pre: 'pre_',
   strict: true
-}) // sessionStorage name: pre_store
+})
 ```
 
 ## set
@@ -199,9 +199,9 @@ Storage.remove(['store', 'token'])
 ``` js
 import Storage from 'storage-web'
 
-Storage.clear({
+Storage.clear({ // 清空 localStorage 和 sessionStorage 下所有以 'pre_' 开头的
   pre: 'pre_'
-}) // 清空 localStorage 和 sessionStorage 下所有以 'pre_' 开头的
+})
 
 Storage.clear() // 清空所有 localStorage 和 sessionStorage
 ```
