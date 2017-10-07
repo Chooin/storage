@@ -96,7 +96,7 @@ Storage.set('store', {}, {
   expire: new Date().getTime() + 24 * 60 * 60 * 1000
 })
 // 或
-Storage().set('store', {}, {
+Storage.set('store', {}, {
   use: 'session'
 })
 ```
@@ -107,20 +107,15 @@ Storage().set('store', {}, {
 import Storage from 'storage-web'
 
 // 默认使用
-Vue.prototype.$storage = new Storage()
+Vue.prototype.$storage = Storage
 
 // Vue 中设置默认参数
-Vue.prototype.$storage = new Storage({
-  use: 's',
-  pre: 'pre_',
-  strict: true,
-  expire: new Date().getTime() + 24 * 60 * 60 * 1000
-})
+this.$storage.defaults['use'] = 's'
+this.$storage.defaults['pre'] = 'pre_'
+this.$storage.defaults['strict'] = true
+this.$storage.defaults['expire'] = new Date().getTime() + 24 * 60 * 60 * 1000
 
-// 设置单个参数
-this.$storage.defaults.pre = 'pre_'
-
-// 用 this.$storage 代替 new Storage() 即可，如：
+// 用 this.$storage 代替 Storage 即可，如：
 this.$storage.get('store')
 ```
 
@@ -131,13 +126,19 @@ this.$storage.get('store')
 ``` js
 import Storage from 'storage-web'
 
-new Storage().get('store') // localStorage
+Storage.get('store') // localStorage
 
-new Storage('s').get('store') // sessionStorage
+Storage.get('store', {
+  use: 's'
+}) // sessionStorage
 
-new Storage('session').get('store') // sessionStorage
+Storage.get('store', {
+  use: 'session'
+}) // sessionStorage
 
-new Storage('sessionStorage').get('store') // sessionStorage
+Storage.get('store', {
+  use: 'sessionStorage'
+}) // sessionStorage
 
 Storage.get('store', {
   use: 's',
@@ -171,7 +172,12 @@ Storage.set([
     key: 'store',
     value: storeValue
   }
-])
+], {
+  use: 's',
+  pre: 'pre_',
+  strict: true,
+  expire: new Date().getTime() + 24 * 60 * 60 * 1000
+})
 ```
 
 ## remove
@@ -197,5 +203,5 @@ Storage.clear({
   pre: 'pre_'
 }) // 清空 localStorage 和 sessionStorage 下所有以 'pre_' 开头的
 
-Storage().clear() // 清空所有 localStorage 和 sessionStorage
+Storage.clear() // 清空所有 localStorage 和 sessionStorage
 ```
