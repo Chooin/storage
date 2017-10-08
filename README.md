@@ -21,53 +21,53 @@
 ### 对比
 
 ``` js
-import Storage from 'storage-web'
+import Storages from 'storage-web'
 
 // 不设置
 window.localStorage.getItem('store') // null 😃
-Storage.get('store') // null 😃
+Storages.get('store') // null 😃
 
 // 设置 Number
 window.localStorage.setItem('store', 1)
 window.localStorage.getItem('store') // {String} 😩
-Storage.set('store', 1)
-Storage.get('store') // {Number} 😃
+Storages.set('store', 1)
+Storages.get('store') // {Number} 😃
 
 // 设置 Object
 window.localStorage.setItem('store', {})
 window.localStorage.getItem('store') // {String} 😩
-Storage.set('store', {})
-Storage.get('store') // {Object} 😃
+Storages.set('store', {})
+Storages.get('store') // {Object} 😃
 
 // 设置 Array
 window.localStorage.setItem('store', [])
 window.localStorage.getItem('store') // {String} 😩
-Storage.set('store', [])
-Storage.get('store') // {Array} 😃
+Storages.set('store', [])
+Storages.get('store') // {Array} 😃
 
 // 设置 Boolean
 window.localStorage.setItem('store', false)
 window.localStorage.getItem('store') // {String} 😩
-Storage.set('store', false)
-Storage.get('store') // {Boolean} 😃
+Storages.set('store', false)
+Storages.get('store') // {Boolean} 😃
 
 // 设置 String
 window.localStorage.setItem('store', 'store')
 window.localStorage.getItem('store') // {String} 😃
-Storage.set('store', 'Tmall')
-Storage.get('store') // {String} 😃
+Storages.set('store', 'Tmall')
+Storages.get('store') // {String} 😃
 
 // 设置 undefined
 window.localStorage.setItem('store', undefined)
 window.localStorage.getItem('store') // {String} 😩
-Storage.set('store', undefined)
-Storage.get('store') // null 😃😃
+Storages.set('store', undefined)
+Storages.get('store') // null 😃😃
 
 // 设置 null
 window.localStorage.setItem('store', null)
 window.localStorage.getItem('store') // {String} 😩
-Storage.set('store', null)
-Storage.get('store') // null 😃
+Storages.set('store', null)
+Storages.get('store') // null 😃
 ```
 
 ### 安装
@@ -87,16 +87,16 @@ yarn add storage-web
 ### 基本使用
 
 ``` js
-import Storage from 'storage-web'
+import Storages from 'storage-web'
 
-Storage.set('store', {}, {
+Storages.set('store', {}, {
   use: 'session',
   pre: 'pre_',
   strict: true,
   expire: new Date().getTime() + 24 * 60 * 60 * 1000
 })
 // 或
-Storage.set('store', {}, {
+Storages.set('store', {}, {
   use: 'session'
 })
 ```
@@ -104,10 +104,10 @@ Storage.set('store', {}, {
 ### 在vue中使用
 
 ``` js
-import Storage from 'storage-web'
+import Storages from 'storage-web'
 
 // 默认使用
-Vue.prototype.$storage = Storage
+Vue.prototype.$storage = Storages
 
 // Vue 中设置默认参数
 this.$storage.defaults['use'] = 's'
@@ -115,7 +115,7 @@ this.$storage.defaults['pre'] = 'pre_'
 this.$storage.defaults['strict'] = true
 this.$storage.defaults['expire'] = new Date().getTime() + 24 * 60 * 60 * 1000
 
-// 用 this.$storage 代替 Storage 即可，如：
+// 用 this.$storage 代替 Storages 即可，如：
 this.$storage.get('store')
 ```
 
@@ -124,23 +124,23 @@ this.$storage.get('store')
 获取
 
 ``` js
-import Storage from 'storage-web'
+import Storages from 'storage-web'
 
-Storage.get('store') // localStorage
+Storages.get('store') // localStorage
 
-Storage.get('store', { // sessionStorage
+Storages.get('store', { // sessionStorage
   use: 's'
 })
 
-Storage.get('store', { // sessionStorage
+Storages.get('store', { // sessionStorage
   use: 'session'
 })
 
-Storage.get('store', { // sessionStorage
+Storages.get('store', { // sessionStorage
   use: 'sessionStorage'
 })
 
-Storage.get('store', { // sessionStorage name: pre_store
+Storages.get('store', { // sessionStorage name: pre_store
   use: 's',
   pre: 'pre_',
   strict: true
@@ -152,7 +152,7 @@ Storage.get('store', { // sessionStorage name: pre_store
 设置
 
 ``` js
-import Storage from 'storage-web'
+import Storages from 'storage-web'
 
 // 支持类型 String,Number,Boolean,Array,Object,Null,Undefined...
 let storeValue = {
@@ -160,14 +160,14 @@ let storeValue = {
   store_name: 'Tmall'
 }
 
-Storage.set('store', storeValue, {
+Storages.set('store', storeValue, {
   use: 's',
   pre: 'pre_',
   strict: true,
   expire: new Date().getTime() + 24 * 60 * 60 * 1000
 })
 
-Storage.set([
+Storages.set([
   {
     key: 'store',
     value: storeValue
@@ -185,11 +185,11 @@ Storage.set([
 移除
 
 ``` js
-import Storage from 'storage-web'
+import Storages from 'storage-web'
 
-Storage.remove('store')
+Storages.remove('store')
 
-Storage.remove(['store', 'token'])
+Storages.remove(['store', 'token'])
 ```
 
 ## clear
@@ -197,11 +197,11 @@ Storage.remove(['store', 'token'])
 清空
 
 ``` js
-import Storage from 'storage-web'
+import Storages from 'storage-web'
 
-Storage.clear({ // 清空 localStorage 和 sessionStorage 下所有以 'pre_' 开头的
+Storages.clear({ // 清空 localStorage 和 sessionStorage 下所有以 'pre_' 开头的
   pre: 'pre_'
 })
 
-Storage.clear() // 清空所有 localStorage 和 sessionStorage
+Storages.clear() // 清空所有 localStorage 和 sessionStorage
 ```
