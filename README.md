@@ -60,13 +60,13 @@ Storages.get('store') // {String} 😃
 // 设置 undefined
 window.localStorage.setItem('store', undefined)
 window.localStorage.getItem('store') // {String} 😩
-Storages.set('store', undefined)
+Storages.set('store', undefined) // 同等于 Storages.remove('store')
 Storages.get('store') // null 😃😃
 
 // 设置 null
 window.localStorage.setItem('store', null)
 window.localStorage.getItem('store') // {String} 😩
-Storages.set('store', null)
+Storages.set('store', null) // 同等于 Storages.remove('store')
 Storages.get('store') // null 😃
 ```
 
