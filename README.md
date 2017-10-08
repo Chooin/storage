@@ -1,7 +1,7 @@
 # storage-web
 
 [![Build Status](https://travis-ci.org/Chooin/storage-web.svg?branch=master)](https://travis-ci.org/Chooin/storage-web)
-![JS gzip size](http://img.badgesize.io/https://unpkg.com/storage-web/dist/storage.js?compression=gzip&label=gzip%20size:%20JS)
+![JS gzip size](http://img.badgesize.io/https://unpkg.com/storage-web/dist/index.js?compression=gzip&label=gzip%20size:%20JS)
 [![npm package](https://img.shields.io/npm/v/storage-web.svg)](https://www.npmjs.org/package/storage-web)
 
 > 对 web 端的 storage 操作，自动解析数据类型，支持 storage 过期时间设置，支持 Vue.js
