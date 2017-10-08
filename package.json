@@ -1,6 +1,6 @@
 {
   "name": "storage-web",
-  "version": "3.0.0-alpha.2",
+  "version": "3.0.0-alpha.3",
   "description": "Storage for web",
   "main": "dist/index.js",
   "author": "",
