@@ -106,14 +106,14 @@ Storages.set('store', {}, {
 ``` js
 import Storages from 'storage-web'
 
-// 默认使用
-Vue.prototype.$storage = Storages
+// 设置默认参数
+Storages.defaults['use'] = 's'
+Storages.defaults['pre'] = 'pre_'
+Storages.defaults['strict'] = true
+Storages.defaults['expire'] = new Date().getTime() + 24 * 60 * 60 * 1000
 
-// Vue 中设置默认参数
-this.$storage.defaults['use'] = 's'
-this.$storage.defaults['pre'] = 'pre_'
-this.$storage.defaults['strict'] = true
-this.$storage.defaults['expire'] = new Date().getTime() + 24 * 60 * 60 * 1000
+// 挂载到 Vue 原型上
+Vue.prototype.$storage = Storages
 
 // 用 this.$storage 代替 Storages 即可，如：
 this.$storage.get('store')
