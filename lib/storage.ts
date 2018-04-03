@@ -15,7 +15,7 @@ function getObjectType (v: any): string {
   return Object.prototype.toString.call(v).slice(8, -1)
 }
 
-function tip (v: any): void {
+function tip (v: string): void {
   if (typeof console !== 'undefined') console.warn(`[Tip]: ${v}`)
 }
 
@@ -30,22 +30,39 @@ class Storages {
     }
   }
 
-  set (key: string | object[], value: any, config: config) {
+  set (
+    key: string | {key: string, value: any}[],
+    value: any,
+    config: config
+  ) {
     if (isDef(key)) {
-
+      if (Array.isArray(key)) {
+        for (let i in key) {
+          this._set(key[i].key, key[i].value, config)
+        }
+      } else {
+        this._set(key, value, config)
+      }
     } else {
       tip('Wrong set storage')
     }
   }
 
-  get (key: string, config: config) {
+  get (
+    key: string,
+    config: config
+  ) {
     if (isDef(key)) {
+      return $LS.getItem(key)
     } else {
       tip('Wrong get storage')
     }
   }
 
-  remove (key: string | string[], config: config) {
+  remove (
+    key: string | string[],
+    config: config
+  ) {
     if (Array.isArray(key)) {
 
     } else {
@@ -57,7 +74,11 @@ class Storages {
 
   }
 
-  _set (key: string, config: config) {
+  _set (
+    key: string,
+    value: any,
+    config: config
+  ) {
     if (isDef(key)) {
 
     } else {
@@ -65,7 +86,10 @@ class Storages {
     }
   }
 
-  _remove (key: string, config: config) {
+  _remove (
+    key: string,
+    config: config
+  ) {
 
   }
 }
