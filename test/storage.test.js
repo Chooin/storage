@@ -1,16 +1,27 @@
-require('jest-localstorage-mock')
-const storage = require('../lib/storage.ts')
+require('jest-localstorage-mock');
+const storage = require('../lib/storage.ts');
 
 afterEach(() => {
-  window.localStorage.clear()
-  window.sessionStorage.clear()
+  window.localStorage.clear();
+  window.sessionStorage.clear();
 })
 
-// test('.set(key, value)', () => {
-//   storage.default.set('a', 1)
-//   const a = storage.default.get('a')
-//   expect(a).toBe('1')
-// })
+test('.set(key, value)', () => {
+  storage.default.set('Number', 0);
+  expect(storage.default.get('Number')).toEqual(0);
+  storage.default.set('Object', {});
+  expect(storage.default.get('Object')).toEqual({});
+  storage.default.set('Array', []);
+  expect(storage.default.get('Array')).toEqual([]);
+  storage.default.set('Boolean', false);
+  expect(storage.default.get('Boolean')).toBeFalsy();
+  storage.default.set('String', '0');
+  expect(storage.default.get('String')).toEqual('0');
+  storage.default.set('Undefined', undefined);
+  expect(storage.default.get('Undefined')).toBeNull();
+  storage.default.set('Null', null);
+  expect(storage.default.get('Null')).toBeNull();
+})
 
 test('.set([{key, value}])', () => {
   storage.default.set([
@@ -35,12 +46,12 @@ test('.set([{key, value}])', () => {
     {
       key: 'Null', value: null
     }
-  ])
-  expect(storage.default.get('Number')).toEqual(0)
-  expect(storage.default.get('Object')).toEqual({})
-  expect(storage.default.get('Array')).toEqual([])
-  expect(storage.default.get('Boolean')).toBeFalsy()
-  expect(storage.default.get('String')).toEqual('0')
-  expect(storage.default.get('Undefined')).toBeNull()
-  expect(storage.default.get('Null')).toBeNull()
+  ]);
+  expect(storage.default.get('Number')).toEqual(0);
+  expect(storage.default.get('Object')).toEqual({});
+  expect(storage.default.get('Array')).toEqual([]);
+  expect(storage.default.get('Boolean')).toBeFalsy();
+  expect(storage.default.get('String')).toEqual('0');
+  expect(storage.default.get('Undefined')).toBeNull();
+  expect(storage.default.get('Null')).toBeNull();
 })

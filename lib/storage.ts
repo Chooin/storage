@@ -38,12 +38,10 @@ class Storages {
     key: string | {key: string, value: any}[],
     value: any,
     config: config
-  ) {
+  ): void {
     if (isDef(key)) {
       if (Array.isArray(key)) {
-        for (let i in key) {
-          this._set(key[i].key, key[i].value, config)
-        }
+        for (let i in key) this._set(key[i].key, key[i].value, config)
       } else {
         this._set(key, value, config)
       }
@@ -55,7 +53,7 @@ class Storages {
   get (
     key: string,
     config: config
-  ) {
+  ): any {
     let value: any
     if (isDef(key)) {
       let store = this.getStore(key, config)
@@ -83,7 +81,7 @@ class Storages {
   remove (
     key: string | string[],
     config: config
-  ) {
+  ): void {
     if (Array.isArray(key)) {
 
     } else {
@@ -93,18 +91,20 @@ class Storages {
 
   clear (
     config: config
-  ) {
+  ): void {
 
   }
 
-  getConfig (config: config) {
+  getConfig (
+    config: config
+  ) {
     return (<any>Object).assign(this.defaults, config)
   }
 
   getKey (
     key: string,
     config: config
-  ) {
+  ): string {
     return `${this.getConfig(config).pre}${key}`
   }
 
@@ -118,13 +118,13 @@ class Storages {
 
   getExpire (
     config: config
-  ) {
+  ): number | null {
     return this.getConfig(config).expire
   }
 
   getStoreName (
     config: config
-  ) {
+  ): string {
     return `__${this.getConfig(config).pre}_storage_web`
   }
 
@@ -145,7 +145,7 @@ class Storages {
     if (store[key]) {
       return store[key]
     } else {
-      tip('无法确定参数类型')
+      tip('当前 key 不在 Storage 里面或当前 key 对应的值为 Null')
     }
   }
 
@@ -153,7 +153,7 @@ class Storages {
     key: string,
     type: string,
     config: config
-  ) {
+  ): void {
     const store = this.store(config)
     store[key] = {
       type,
@@ -168,7 +168,7 @@ class Storages {
   removeStore (
     key: string,
     config: config
-  ) {
+  ): void {
     const store = this.store(config)
     delete store[key]
     this.getStorage(config).setItem(
@@ -181,7 +181,7 @@ class Storages {
     key: string,
     value: any,
     config: config
-  ) {
+  ): void {
     if (isDef(key)) {
       key = this.getKey(key, config)
       let storage = this.getStorage(config)
@@ -200,14 +200,14 @@ class Storages {
         storage.removeItem(key)
       }
     } else {
-      tip('Wrong set storage')
+      tip('设置 Storage 失败，key 不能为空')
     }
   }
 
   _remove (
     key: string,
     config: config
-  ) {
+  ): void {
 
   }
 }
