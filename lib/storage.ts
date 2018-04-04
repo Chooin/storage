@@ -109,7 +109,7 @@ class Storages {
   ): void {
     if (Array.isArray(key)) {
       for (let i in key) {
-        this._remove(this.getKey(key[i], config), config)
+        this._remove(key[i], config)
       }
     } else {
       this._remove(key, config)
