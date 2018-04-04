@@ -1,7 +1,7 @@
 interface config {
   use?: string,
   pre?: string,
-  export?: number
+  expire?: number | null
 }
 
 const $LS = window.localStorage
@@ -20,7 +20,11 @@ function tip (v: string): void {
 }
 
 class Storages {
-  defaults: object
+  defaults: {
+    use: string,
+    pre: string,
+    expire: number | null
+  }
 
   constructor () {
     this.defaults = {
@@ -52,10 +56,27 @@ class Storages {
     key: string,
     config: config
   ) {
+    let value: any
     if (isDef(key)) {
-      return $LS.getItem(key)
+      let store = this.getStore(key, config)
+      let value = this.getStorage(config).getItem(key)
+      if (store) {
+        if (value) {
+          return store.type === 'String' ? value : JSON.parse(value)
+        } else {
+          tip('获取 Storage 失败，Storage 中不存在该 key')
+          return null
+        }
+      } else {
+        try {
+          return value ? JSON.parse(value) : null
+        } catch (_) {
+          this.getStorage(config).removeItem(key)
+          return null
+        }
+      }
     } else {
-      tip('Wrong get storage')
+      tip('获取 Storage 失败，key 不能为空')
     }
   }
 
@@ -70,8 +91,82 @@ class Storages {
     }
   }
 
-  clear (config: config) {
+  clear (
+    config: config
+  ) {
 
+  }
+
+  getConfig (config: config) {
+    return (<any>Object).assign(this.defaults, config)
+  }
+
+  getKey (
+    key: string,
+    config: config
+  ) {
+    return `${this.getConfig(config).pre}${key}`
+  }
+
+  getStorage (
+    config: config
+  ) {
+    return /^(l|local|localStorage)$/.test(this.getConfig(config).use)
+      ? $LS
+      : $SS
+  }
+
+  getExpire (
+    config: config
+  ) {
+    return this.getConfig(config).expire
+  }
+
+  getStoreName (
+    config: config
+  ) {
+    return `__${this.getConfig(config).pre}_storage_web`
+  }
+
+  store (
+    config: config
+  ) {
+    let store: any
+    store = this.getStorage(config).getItem(this.getStoreName(config))
+    store = store ? JSON.parse(store) : []
+    return store
+  }
+
+  getStore (
+    key: string,
+    config: config
+  ) {
+    const store = this.store(config)
+    if (store[key]) {
+      return store[key]
+    } else {
+      tip('无法确定参数类型')
+    }
+  }
+
+  setStore (
+    key: string,
+    type: string,
+    config: config
+  ) {
+
+  }
+
+  removeStore (
+    key: string,
+    config: config
+  ) {
+    const store = this.store(config)
+    delete store[key]
+    this.getStorage(config).setItem(
+      this.getStoreName(config),
+      JSON.stringify(store)
+    )
   }
 
   _set (
@@ -80,7 +175,22 @@ class Storages {
     config: config
   ) {
     if (isDef(key)) {
-
+      key = this.getKey(key, config)
+      let storage = this.getStorage(config)
+      if (isDef(value)) {
+        let objectType = getObjectType(value)
+        this.setStore(key, objectType, config)
+        if (
+          objectType === 'String' ||
+          objectType === 'Number'
+        ) {
+          storage.setItem(key, value)
+        } else {
+          storage.setItem(key, JSON.stringify(value))
+        }
+      } else {
+        storage.removeItem(key)
+      }
     } else {
       tip('Wrong set storage')
     }
