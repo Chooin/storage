@@ -6,44 +6,6 @@ afterEach(() => {
   window.sessionStorage.clear()
 })
 
-test('.get(key)', () => {
-  storage.default.set('Number', 0)
-  expect(storage.default.get('Number')).toEqual(0)
-  storage.default.set('Object', {})
-  expect(storage.default.get('Object')).toEqual({})
-  storage.default.set('Array', [])
-  expect(storage.default.get('Array')).toEqual([])
-  storage.default.set('Boolean', false)
-  expect(storage.default.get('Boolean')).toBeFalsy()
-  storage.default.set('String', '0')
-  expect(storage.default.get('String')).toEqual('0')
-  storage.default.set('Undefined', undefined)
-  expect(window.localStorage.getItem('Undefined')).toBeNull()
-  storage.default.set('Null', null)
-  expect(window.localStorage.getItem('Null')).toBeNull()
-})
-
-test('.get(key, config)', () => {
-  storage.default.set('Number', 0, {
-    pre: 'test_'
-  })
-  expect(storage.default.get('Number', {
-    pre: 'test_'
-  })).toEqual(0)
-  storage.default.set('Object', {})
-  expect(storage.default.get('Object')).toEqual({})
-  storage.default.set('Array', [])
-  expect(storage.default.get('Array')).toEqual([])
-  storage.default.set('Boolean', false)
-  expect(storage.default.get('Boolean')).toBeFalsy()
-  storage.default.set('String', '0')
-  expect(storage.default.get('String')).toEqual('0')
-  storage.default.set('Undefined', undefined)
-  expect(window.localStorage.getItem('Undefined')).toBeNull()
-  storage.default.set('Null', null)
-  expect(window.localStorage.getItem('Null')).toBeNull()
-})
-
 test('.set(key, value)', () => {
   storage.default.set('Number', 0)
   expect(window.localStorage.getItem('Number')).toEqual('0')
@@ -114,19 +76,4 @@ test('.set([{key, value}], config)', () => {
   expect(storage.default.get('String')).toEqual('0')
   expect(window.localStorage.getItem('Undefined')).toBeNull()
   expect(window.localStorage.getItem('Null')).toBeNull()
-})
-
-test('.remove(key)', () => {
-})
-
-test('.remove(key, config)', () => {
-})
-
-test('.remove([key], config)', () => {
-})
-
-test('.clear()', () => {
-})
-
-test('.clear(config)', () => {
 })
