@@ -20,19 +20,14 @@ function tip (v: string): void {
 }
 
 class Storages {
-  defaults: {
-    use: string,
-    pre: string,
-    expire: number | null
+  version = 'v4.0.0'
+  defaults = {
+    use: 'local',
+    pre: '',
+    expire: null
   }
 
-  constructor () {
-    this.defaults = {
-      use: 'local',
-      pre: '',
-      expire: null
-    }
-  }
+  constructor () {}
 
   set (
     key: string | {key: string, value: any}[],
@@ -125,7 +120,7 @@ class Storages {
   getStoreName (
     config: config
   ): string {
-    return `__${this.getConfig(config).pre}_storage_web`
+    return `__${this.getConfig(config).pre}_storage_web_version_${this.version}`
   }
 
   store (
