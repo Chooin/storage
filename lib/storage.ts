@@ -133,7 +133,7 @@ class Storages {
   ) {
     let store: any
     store = this.getStorage(config).getItem(this.getStoreName(config))
-    store = store ? JSON.parse(store) : []
+    store = store ? JSON.parse(store) : {}
     return store
   }
 
@@ -154,7 +154,15 @@ class Storages {
     type: string,
     config: config
   ) {
-
+    const store = this.store(config)
+    store[key] = {
+      type,
+      expire: this.getExpire(config)
+    }
+    this.getStorage(config).setItem(
+      this.getStoreName(config),
+      JSON.stringify(store)
+    )
   }
 
   removeStore (
@@ -178,11 +186,11 @@ class Storages {
       key = this.getKey(key, config)
       let storage = this.getStorage(config)
       if (isDef(value)) {
-        let objectType = getObjectType(value)
-        this.setStore(key, objectType, config)
+        let type = getObjectType(value)
+        this.setStore(key, type, config)
         if (
-          objectType === 'String' ||
-          objectType === 'Number'
+          type === 'String' ||
+          type === 'Number'
         ) {
           storage.setItem(key, value)
         } else {
