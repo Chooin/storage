@@ -50,6 +50,7 @@ class Storages {
     config: config
   ): any {
     let value: any
+    key = this.getKey(key, config)
     if (isDef(key)) {
       let store = this.getStore(key, config)
       let value = this.getStorage(config).getItem(key)
@@ -64,7 +65,7 @@ class Storages {
         try {
           return value ? JSON.parse(value) : null
         } catch (_) {
-          this.getStorage(config).removeItem(key)
+          this._remove(key, config)
           return null
         }
       }
@@ -78,7 +79,10 @@ class Storages {
     config: config
   ): void {
     if (Array.isArray(key)) {
-
+      for (let i in key) {
+        key[i] = this.getKey(key[i], config)
+        this._remove(key[i], config)
+      }
     } else {
       this._remove(key, config)
     }
@@ -93,7 +97,7 @@ class Storages {
   getConfig (
     config: config
   ) {
-    return (<any>Object).assign(this.defaults, config)
+    return (<any>Object).assign({}, this.defaults, config)
   }
 
   getKey (
@@ -109,12 +113,6 @@ class Storages {
     return /^(l|local|localStorage)$/.test(this.getConfig(config).use)
       ? $LS
       : $SS
-  }
-
-  getExpire (
-    config: config
-  ): number | null {
-    return this.getConfig(config).expire
   }
 
   getStoreName (
@@ -152,7 +150,7 @@ class Storages {
     const store = this.store(config)
     store[key] = {
       type,
-      expire: this.getExpire(config)
+      expire: this.getConfig(config).expire
     }
     this.getStorage(config).setItem(
       this.getStoreName(config),
@@ -192,7 +190,7 @@ class Storages {
           storage.setItem(key, JSON.stringify(value))
         }
       } else {
-        storage.removeItem(key)
+        this._remove(key, config)
       }
     } else {
       tip('设置 Storage 失败，key 不能为空')
@@ -203,7 +201,9 @@ class Storages {
     key: string,
     config: config
   ): void {
-
+    key = this.getKey(key, config)
+    this.removeStore(key, config)
+    this.getStorage(config).removeItem(key)
   }
 }
 
