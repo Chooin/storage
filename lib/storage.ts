@@ -80,7 +80,7 @@ class Storages {
     key = this.getKey(key, config)
     if (isDef(key)) {
       let store = this.getStore(key, config)
-      let value = this.getStorage(config).getItem(key)
+      let value: any = this.getStorage(config).getItem(key)
       if (store) {
         if (value) {
           return store.type === 'String'
@@ -91,11 +91,13 @@ class Storages {
           return null
         }
       } else {
+        tip('获取 Storage 异常，未能匹配到参数类型')
         try {
-          return value ? JSON.parse(value) : null
+          return JSON.parse(value)
         } catch (_) {
-          this._remove(key, config)
-          return null
+          return value
+           ? value
+           : null
         }
       }
     } else {
