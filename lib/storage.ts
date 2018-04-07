@@ -39,13 +39,13 @@ class Storages {
     key: string,
     config: config
   ): string {
-    return `${this.getConfig(config).pre}${key}`
+    return `${config.pre}${key}`
   }
 
   getStorage (
     config: config
   ) {
-    return /^(l|local|localStorage)$/.test(this.getConfig(config).use)
+    return /^(l|local|localStorage)$/.test(config.use)
       ? $LS
       : $SS
   }
@@ -53,7 +53,7 @@ class Storages {
   getStoreName (
     config: config
   ): string {
-    return `__${this.getConfig(config).pre}_storage_web_version_${this.version}`
+    return `__${config.pre}_storage_web_version_${this.version}`
   }
 
   set (
@@ -63,8 +63,10 @@ class Storages {
   ): void {
     if (isDef(key)) {
       if (Array.isArray(key)) {
+        config = this.getConfig(value)
         for (let i in key) this._set(key[i].key, key[i].value, config)
       } else {
+        config = this.getConfig(config)
         this._set(key, value, config)
       }
     } else {
@@ -76,16 +78,28 @@ class Storages {
     key: string,
     config: config
   ): any {
+    config = this.getConfig(config)
     let value: any
     key = this.getKey(key, config)
     if (isDef(key)) {
       let store = this.getStore(key, config)
-      let value: any = this.getStorage(config).getItem(key)
+      value = this.getStorage(config).getItem(key)
       if (store) {
         if (value) {
-          return store.type === 'String'
-            ? value
-            : JSON.parse(value)
+          if (
+            (
+              store.expire &&
+              store.expire > new Date().getTime()
+            ) ||
+            store.expire === null
+          ) {
+            return store.type === 'String'
+              ? value
+              : JSON.parse(value)
+          } else {
+            this._remove(key, config)
+            return null
+          }
         } else {
           tip('获取 Storage 失败，Storage 中不存在该 key')
           return null
@@ -109,6 +123,7 @@ class Storages {
     key: string | string[],
     config: config
   ): void {
+    config = this.getConfig(config)
     if (Array.isArray(key)) {
       for (let i in key) {
         this._remove(key[i], config)
@@ -121,13 +136,13 @@ class Storages {
   clear (
     config: config
   ): void {
-    const pre = this.getConfig(config).pre
-    if (pre) {
+    config = this.getConfig(config)
+    if (config.pre) {
       for (let l in $LS) {
-        if (l.indexOf(pre) === 0) $LS.removeItem(l)
+        if (l.indexOf(config.pre) === 0) $LS.removeItem(l)
       }
       for (let s in $SS) {
-        if (s.indexOf(pre) === 0) $SS.removeItem(s)
+        if (s.indexOf(config.pre) === 0) $SS.removeItem(s)
       }
     } else {
       $LS.clear()
