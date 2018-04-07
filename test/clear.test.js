@@ -15,15 +15,17 @@ test('.clear()', () => {
 })
 
 test('.clear(config)', () => {
-  const config = {
-    pre: '1test_'
-  }
-  const config2 = {
-    pre: '2text_'
-  }
-  storage.default.set('Number', 0, config)
-  storage.default.set('Number', 0, config2)
-  storage.default.clear(config)
-  expect(window.localStorage.getItem('1test_Number')).toBeNull()
-  expect(window.localStorage.getItem('2text_Number')).toEqual('0')
+  const pre = '1.clear(config)'
+  const pre_2 = '2.clear(config)'
+  storage.default.set('Number', 0, {
+    pre
+  })
+  storage.default.set('Number', 0, {
+    pre: pre_2
+  })
+  storage.default.clear({
+    pre
+  })
+  expect(window.localStorage.getItem(`${pre}Number`)).toBeNull()
+  expect(window.localStorage.getItem(`${pre_2}Number`)).toEqual('0')
 })
