@@ -27,8 +27,8 @@ Number | 😰 String | 😃 Number
 String | 😃 String | 😃 String
 Object | 😰 String | 😃 Object
 Array | 😰 String | 😃 Array
-Boolean | 😃 String | 😃 Boolean
-Undefined | 😰 String | 🤩 null
+Boolean | 😰 String | 😃 Boolean
+Undefined | 😰 String | 🤩 Null
 Null | 😰 Null | 😃 Null
 
 ### 安装
