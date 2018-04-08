@@ -29,7 +29,7 @@ Object | 😰 String | 😃 Object
 Array | 😰 String | 😃 Array
 Boolean | 😰 String | 😃 Boolean
 Undefined | 😰 String | 🤩 Null
-Null | 😰 Null | 😃 Null
+Null | 😰 String | 😃 Null
 
 ### 安装
 ``` sh
