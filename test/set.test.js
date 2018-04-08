@@ -24,20 +24,16 @@ test('.set(key, value)', () => {
 })
 
 test('.set(key, value, config)', () => {
-  storage.default.set('Number', 0)
-  expect(window.localStorage.getItem('Number')).toEqual('0')
-  storage.default.set('Object', {})
-  expect(window.localStorage.getItem('Object')).toEqual('{}')
-  storage.default.set('Array', [])
-  expect(window.localStorage.getItem('Array')).toEqual('[]')
-  storage.default.set('Boolean', false)
-  expect(window.localStorage.getItem('Boolean')).toEqual('false')
-  storage.default.set('String', '0')
-  expect(window.localStorage.getItem('String')).toEqual('0')
-  storage.default.set('Undefined', undefined)
-  expect(window.localStorage.getItem('Undefined')).toBeNull()
-  storage.default.set('Null', null)
-  expect(window.localStorage.getItem('Null')).toBeNull()
+  const pre = '.set(key, value, config)'
+  storage.default.set('Number', 0, {
+    pre
+  })
+  expect(window.localStorage.getItem(`${pre}Number`)).toEqual('0')
+
+  // 过期时间的测试
+  const expire = new Date().getTime
+  const expire_2 = new Date().getTime + 6000
+
 })
 
 test('.set([{key, value}])', () => {

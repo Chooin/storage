@@ -20,55 +20,16 @@
 
 ### 对比
 
-``` js
-import Storages from 'storage-web'
-
-// 不设置
-window.localStorage.getItem('store') // null 😃
-Storages.get('store') // null 😃
-
-// 设置 Number
-window.localStorage.setItem('store', 1)
-window.localStorage.getItem('store') // {String} 😩
-Storages.set('store', 1)
-Storages.get('store') // {Number} 😃
-
-// 设置 Object
-window.localStorage.setItem('store', {})
-window.localStorage.getItem('store') // {String} 😩
-Storages.set('store', {})
-Storages.get('store') // {Object} 😃
-
-// 设置 Array
-window.localStorage.setItem('store', [])
-window.localStorage.getItem('store') // {String} 😩
-Storages.set('store', [])
-Storages.get('store') // {Array} 😃
-
-// 设置 Boolean
-window.localStorage.setItem('store', false)
-window.localStorage.getItem('store') // {String} 😩
-Storages.set('store', false)
-Storages.get('store') // {Boolean} 😃
-
-// 设置 String
-window.localStorage.setItem('store', 'store')
-window.localStorage.getItem('store') // {String} 😃
-Storages.set('store', 'Tmall')
-Storages.get('store') // {String} 😃
-
-// 设置 undefined
-window.localStorage.setItem('store', undefined)
-window.localStorage.getItem('store') // {String} 😩
-Storages.set('store', undefined) // 同等于 Storages.remove('store')
-Storages.get('store') // null 😃😃
-
-// 设置 null
-window.localStorage.setItem('store', null)
-window.localStorage.getItem('store') // {String} 😩
-Storages.set('store', null) // 同等于 Storages.remove('store')
-Storages.get('store') // null 😃
-```
+设置参数类型 | localStorage.getItem 获取到的类型 | storage-web 获取到的类型
+--------- | -------- | --------
+无 | 😃 Null | 😃 Null
+Number | 😰 String | 😃 Number
+String | 😃 String | 😃 String
+Object | 😰 String | 😃 Object
+Array | 😰 String | 😃 Array
+Boolean | 😃 String | 😃 Boolean
+Undefined | 😰 String | 🤩 null
+Null | 😰 Null | 😃 Null
 
 ### 安装
 ``` sh
