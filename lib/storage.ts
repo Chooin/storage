@@ -1,7 +1,8 @@
 interface config {
   use?: string,
   pre?: string,
-  expire?: number | null
+  expire?: number | null,
+  once: false
 }
 
 const $LS = window.localStorage
@@ -83,15 +84,11 @@ class Storages {
 
   get (
     key: string,
-    config: config,
-    options: object
+    config: config
   ): any {
     config = this.getConfig(config)
     let value: any
     key = this.getKey(key, config)
-    options = (<any>Object).assign({
-      once: false
-    }, options)
     if (isDef(key)) {
       let store = this.getStore(key, config)
       value = this.getStorage(config).getItem(key)
@@ -104,7 +101,7 @@ class Storages {
             ) ||
             store.expire === null
           ) {
-            if (options.once) this._remove(key, config)
+            if (config.once) this._remove(key, config)
             return store.type === 'String'
               ? value
               : JSON.parse(value)
