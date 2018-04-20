@@ -25,7 +25,8 @@ class Storages {
   defaults = {
     use: 'local',
     pre: '',
-    expire: null
+    expire: null,
+    once: false
   }
 
   constructor () {}
@@ -119,8 +120,8 @@ class Storages {
           return JSON.parse(value)
         } catch (_) {
           return value
-           ? value
-           : null
+            ? value
+            : null
         }
       }
     } else {
