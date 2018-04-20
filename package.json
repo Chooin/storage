@@ -17,7 +17,10 @@
     "url": "https://github.com/Chooin/storage-web/issues"
   },
   "homepage": "https://github.com/Chooin/storage-web#readme",
-  "dependencies": {},
+  "dependencies": {
+    "ts-loader": "^4.2.0",
+    "webpack": "^4.5.0"
+  },
   "devDependencies": {
     "@types/jest": "^22.2.2",
     "babel-core": "^6.26.0",

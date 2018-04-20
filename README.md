@@ -44,7 +44,7 @@ yarn add storage-web
 --------- | -------- | -------- | -------- | --------
 use | 使用的 storage 类型 | String | l/local/localStorage/s/session/sessionStorage | local
 pre | 前缀 | String | - | -
-expire| 过期时间 | Number | - | -
+expire| 过期时间，从当前开始 | Number | - | -
 
 ### 基本使用
 
@@ -54,7 +54,7 @@ import Storages from 'storage-web'
 Storages.set('store', {}, {
   use: 'session',
   pre: 'pre_',
-  expire: new Date().getTime() + 24 * 60 * 60 * 1000
+  expire: 24 * 60 * 60 * 1000
 })
 // 或
 Storages.set('store', {}, {
@@ -67,13 +67,13 @@ Storages.set('store', {}, {
 ``` js
 import Storages from 'storage-web'
 
-// 默认使用
+// 挂载到原型链上
 Vue.prototype.$storage = Storages
 
 // Vue 中设置默认参数
-this.$storage.defaults['use'] = 's'
+this.$storage.defaults['use'] = 'local'
 this.$storage.defaults['pre'] = 'pre_'
-this.$storage.defaults['expire'] = new Date().getTime() + 24 * 60 * 60 * 1000
+this.$storage.defaults['expire'] = 24 * 60 * 60 * 1000
 
 // 用 this.$storage 代替 Storages 即可，如：
 this.$storage.get('store')
@@ -122,7 +122,7 @@ let storeValue = {
 Storages.set('store', storeValue, {
   use: 's',
   pre: 'pre_',
-  expire: new Date().getTime() + 24 * 60 * 60 * 1000
+  expire: 24 * 60 * 60 * 1000
 })
 
 Storages.set([
@@ -133,7 +133,7 @@ Storages.set([
 ], {
   use: 's',
   pre: 'pre_',
-  expire: new Date().getTime() + 24 * 60 * 60 * 1000
+  expire: 24 * 60 * 60 * 1000
 })
 ```
 

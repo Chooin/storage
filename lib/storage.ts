@@ -32,6 +32,13 @@ class Storages {
   getConfig (
     config: config
   ) {
+    if (
+      config &&
+      config.expire &&
+      /^[1-9]\d*$/.test(String(config.expire))
+    ) {
+      config.expire = config.expire + new Date().getTime()
+    }
     return (<any>Object).assign({}, this.defaults, config)
   }
 
@@ -45,7 +52,7 @@ class Storages {
   getStorage (
     config: config
   ) {
-    return /^(l|local|localStorage)$/.test(config.use)
+    return /^(l|local|localStorage)$/.test(String(config.use))
       ? $LS
       : $SS
   }
@@ -76,11 +83,15 @@ class Storages {
 
   get (
     key: string,
-    config: config
+    config: config,
+    options: object
   ): any {
     config = this.getConfig(config)
     let value: any
     key = this.getKey(key, config)
+    options = (<any>Object).assign({
+      once: false
+    }, options)
     if (isDef(key)) {
       let store = this.getStore(key, config)
       value = this.getStorage(config).getItem(key)
@@ -93,6 +104,7 @@ class Storages {
             ) ||
             store.expire === null
           ) {
+            if (options.once) this._remove(key, config)
             return store.type === 'String'
               ? value
               : JSON.parse(value)
@@ -211,14 +223,7 @@ class Storages {
       if (isDef(value)) {
         let type = getObjectType(value)
         this.setStore(key, type, config)
-        if (
-          type === 'String' ||
-          type === 'Number'
-        ) {
-          storage.setItem(key, value)
-        } else {
-          storage.setItem(key, JSON.stringify(value))
-        }
+        storage.setItem(key, JSON.stringify(value))
       } else {
         this._remove(key, config)
       }
