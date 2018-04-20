@@ -2,7 +2,7 @@ interface config {
   use?: string,
   pre?: string,
   expire?: number | null,
-  once: false
+  once: boolean
 }
 
 const $LS = window.localStorage
@@ -86,8 +86,8 @@ class Storages {
     key: string,
     config: config
   ): any {
-    config = this.getConfig(config)
     let value: any
+    config = this.getConfig(config)
     key = this.getKey(key, config)
     if (isDef(key)) {
       let store = this.getStore(key, config)
