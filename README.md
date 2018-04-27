@@ -20,55 +20,16 @@
 
 ### 对比
 
-``` js
-import Storages from 'storage-web'
-
-// 不设置
-window.localStorage.getItem('store') // null 😃
-Storages.get('store') // null 😃
-
-// 设置 Number
-window.localStorage.setItem('store', 1)
-window.localStorage.getItem('store') // {String} 😩
-Storages.set('store', 1)
-Storages.get('store') // {Number} 😃
-
-// 设置 Object
-window.localStorage.setItem('store', {})
-window.localStorage.getItem('store') // {String} 😩
-Storages.set('store', {})
-Storages.get('store') // {Object} 😃
-
-// 设置 Array
-window.localStorage.setItem('store', [])
-window.localStorage.getItem('store') // {String} 😩
-Storages.set('store', [])
-Storages.get('store') // {Array} 😃
-
-// 设置 Boolean
-window.localStorage.setItem('store', false)
-window.localStorage.getItem('store') // {String} 😩
-Storages.set('store', false)
-Storages.get('store') // {Boolean} 😃
-
-// 设置 String
-window.localStorage.setItem('store', 'store')
-window.localStorage.getItem('store') // {String} 😃
-Storages.set('store', 'Tmall')
-Storages.get('store') // {String} 😃
-
-// 设置 undefined
-window.localStorage.setItem('store', undefined)
-window.localStorage.getItem('store') // {String} 😩
-Storages.set('store', undefined) // 同等于 Storages.remove('store')
-Storages.get('store') // null 😃😃
-
-// 设置 null
-window.localStorage.setItem('store', null)
-window.localStorage.getItem('store') // {String} 😩
-Storages.set('store', null) // 同等于 Storages.remove('store')
-Storages.get('store') // null 😃
-```
+设置参数类型 | localStorage.getItem 获取到的类型 | storage-web 获取到的类型
+--------- | -------- | --------
+无 | 😃 Null | 😃 Null
+Number | 😰 String | 😃 Number
+String | 😃 String | 😃 String
+Object | 😰 String | 😃 Object
+Array | 😰 String | 😃 Array
+Boolean | 😰 String | 😃 Boolean
+Undefined | 😰 String | 🤩 Null
+Null | 😰 String | 😃 Null
 
 ### 安装
 ``` sh
@@ -79,10 +40,11 @@ yarn add storage-web
 
 ### 默认参数
 
-+ {String} use storage 类型，默认：localStorage。值为 `s`/`session`/`sessionStorage` 则使用 sessionStorage，否则使用 localStorage
-+ {String} pre 前缀，默认：''。如：当 pre 等于 `pre_` 则 stroage 的 key 会以 `pre_` 开头
-+ {Boolean} strict 模式，默认：true。值为 `true` 则设置什么输出什么，如：设置数字 1，获取时也是数字 1
-+ {Int} expire 过期时间，默认：null。如：1503170741859，内容过期则无法获取值
+参数 | 说明 | 类型 | 可选值 | 默认值
+--------- | -------- | -------- | -------- | --------
+use | 使用的 storage 类型 | String | l/local/localStorage/s/session/sessionStorage | local
+pre | 前缀 | String | - | -
+expire| 过期时间，从当前开始 | Number | - | -
 
 ### 基本使用
 
@@ -92,8 +54,7 @@ import Storages from 'storage-web'
 Storages.set('store', {}, {
   use: 'session',
   pre: 'pre_',
-  strict: true,
-  expire: new Date().getTime() + 24 * 60 * 60 * 1000
+  expire: 24 * 60 * 60 * 1000
 })
 // 或
 Storages.set('store', {}, {
@@ -106,14 +67,13 @@ Storages.set('store', {}, {
 ``` js
 import Storages from 'storage-web'
 
-// 设置默认参数
-Storages.defaults['use'] = 's'
-Storages.defaults['pre'] = 'pre_'
-Storages.defaults['strict'] = true
-Storages.defaults['expire'] = new Date().getTime() + 24 * 60 * 60 * 1000
-
-// 挂载到 Vue 原型上
+// 挂载到原型链上
 Vue.prototype.$storage = Storages
+
+// Vue 中设置默认参数
+this.$storage.defaults['use'] = 'local'
+this.$storage.defaults['pre'] = 'pre_'
+this.$storage.defaults['expire'] = 24 * 60 * 60 * 1000
 
 // 用 this.$storage 代替 Storages 即可，如：
 this.$storage.get('store')
@@ -142,8 +102,7 @@ Storages.get('store', { // sessionStorage
 
 Storages.get('store', { // sessionStorage name: pre_store
   use: 's',
-  pre: 'pre_',
-  strict: true
+  pre: 'pre_'
 })
 ```
 
@@ -163,8 +122,7 @@ let storeValue = {
 Storages.set('store', storeValue, {
   use: 's',
   pre: 'pre_',
-  strict: true,
-  expire: new Date().getTime() + 24 * 60 * 60 * 1000
+  expire: 24 * 60 * 60 * 1000
 })
 
 Storages.set([
@@ -175,8 +133,7 @@ Storages.set([
 ], {
   use: 's',
   pre: 'pre_',
-  strict: true,
-  expire: new Date().getTime() + 24 * 60 * 60 * 1000
+  expire: 24 * 60 * 60 * 1000
 })
 ```
 
