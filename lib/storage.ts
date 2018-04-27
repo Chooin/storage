@@ -221,7 +221,14 @@ class Storages {
       if (isDef(value)) {
         let type = getObjectType(value)
         this.setStore(key, type, config)
-        storage.setItem(key, JSON.stringify(value))
+        if (
+          type === 'String' ||
+          type === 'Number'
+        ) {
+          storage.setItem(key, value)
+        } else {
+          storage.setItem(key, JSON.stringify(value))
+        }
       } else {
         this._remove(key, config)
       }
