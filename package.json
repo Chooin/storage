@@ -1,11 +1,11 @@
 {
   "name": "storage-web",
-  "version": "3.0.0-alpha.3",
+  "version": "4.0.0-alpha.1",
   "description": "Storage for web",
   "main": "dist/index.js",
   "author": "",
   "scripts": {
-    "build": "gulp build",
+    "build": "tsc",
     "test": "jest"
   },
   "repository": {
@@ -17,20 +17,8 @@
     "url": "https://github.com/Chooin/storage-web/issues"
   },
   "homepage": "https://github.com/Chooin/storage-web#readme",
-  "dependencies": {
-    "ts-loader": "^4.2.0",
-    "webpack": "^4.5.0"
-  },
   "devDependencies": {
     "@types/jest": "^22.2.2",
-    "babel-core": "^6.26.0",
-    "babel-preset-es2015": "^6.24.1",
-    "babel-preset-stage-2": "^6.24.1",
-    "del": "^3.0.0",
-    "gulp": "^3.9.1",
-    "gulp-babel": "^7.0.0",
-    "gulp-jshint": "^2.0.4",
-    "gulp-uglify": "^3.0.0",
     "jest": "^22.4.3",
     "jest-localstorage-mock": "^2.2.0",
     "jshint": "^2.9.5",

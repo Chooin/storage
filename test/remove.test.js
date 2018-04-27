@@ -1,5 +1,5 @@
 require('jest-localstorage-mock')
-const storage = require('../lib/storage.ts')
+const storage = require('../lib/index.ts')
 
 afterEach(() => {
   window.localStorage.clear()
