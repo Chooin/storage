@@ -1,13 +1,14 @@
 {
   "name": "storage-web",
-  "version": "4.0.0-alpha.1",
-  "description": "Storage for web",
+  "version": "4.0.0-alpha.2",
+  "description": "浏览器端的 storage 操作",
   "main": "dist/index.js",
-  "author": "",
+  "author": "zhuning",
   "scripts": {
     "build": "tsc",
     "test": "jest"
   },
+  "typings": "lib/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Chooin/storage-web.git"

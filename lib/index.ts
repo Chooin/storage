@@ -5,9 +5,6 @@ interface config {
   once: boolean
 }
 
-const $LS = window.localStorage
-const $SS = window.sessionStorage
-
 function isDef (v: any): boolean {
   return typeof v !== 'undefined' && v !== null
 }
@@ -21,7 +18,9 @@ function tip (v: string): void {
 }
 
 class Storages {
-  version = 'v4.0.0'
+  version = 'v4.0.0-alpha.2'
+  LS = window.localStorage
+  SS = window.sessionStorage
   defaults = {
     use: 'local',
     pre: '',
@@ -30,40 +29,6 @@ class Storages {
   }
 
   constructor () {}
-
-  getConfig (
-    config: config
-  ) {
-    if (
-      config &&
-      config.expire &&
-      /^[1-9]\d*$/.test(String(config.expire))
-    ) {
-      config.expire = config.expire + new Date().getTime()
-    }
-    return (<any>Object).assign({}, this.defaults, config)
-  }
-
-  getKey (
-    key: string,
-    config: config
-  ): string {
-    return `${config.pre}${key}`
-  }
-
-  getStorage (
-    config: config
-  ) {
-    return /^(l|local|localStorage)$/.test(String(config.use))
-      ? $LS
-      : $SS
-  }
-
-  getStoreName (
-    config: config
-  ): string {
-    return `__${config.pre}_storage_web_version_${this.version}`
-  }
 
   set (
     key: string | {key: string, value: any}[],
@@ -79,7 +44,7 @@ class Storages {
         this._set(key, value, config)
       }
     } else {
-      tip('Wrong set storage')
+      tip('参数设置失败')
     }
   }
 
@@ -148,19 +113,53 @@ class Storages {
   ): void {
     config = this.getConfig(config)
     if (config.pre) {
-      for (let l in $LS) {
-        if (l.indexOf(config.pre) === 0) $LS.removeItem(l)
+      for (let l in this.LS) {
+        if (l.indexOf(config.pre) === 0) this.LS.removeItem(l)
       }
-      for (let s in $SS) {
-        if (s.indexOf(config.pre) === 0) $SS.removeItem(s)
+      for (let s in this.SS) {
+        if (s.indexOf(config.pre) === 0) this.SS.removeItem(s)
       }
     } else {
-      $LS.clear()
-      $SS.clear()
+      this.LS.clear()
+      this.SS.clear()
     }
   }
 
-  store (
+  private getConfig (
+    config: config
+  ) {
+    if (
+      config &&
+      config.expire &&
+      /^[1-9]\d*$/.test(String(config.expire))
+    ) {
+      config.expire = config.expire + new Date().getTime()
+    }
+    return (<any>Object).assign({}, this.defaults, config)
+  }
+
+  private getKey (
+    key: string,
+    config: config
+  ): string {
+    return `${config.pre}${key}`
+  }
+
+  private getStorage (
+    config: config
+  ) {
+    return /^(l|local|localStorage)$/.test(String(config.use))
+      ? this.LS
+      : this.SS
+  }
+
+  private getStoreName (
+    config: config
+  ): string {
+    return `__${config.pre}_storage_web_version_${this.version}`
+  }
+
+  private store (
     config: config
   ) {
     let store: any
@@ -170,7 +169,7 @@ class Storages {
       : {}
   }
 
-  getStore (
+  private getStore (
     key: string,
     config: config
   ) {
@@ -182,7 +181,7 @@ class Storages {
     }
   }
 
-  setStore (
+  private setStore (
     key: string,
     type: string,
     config: config
@@ -198,7 +197,7 @@ class Storages {
     )
   }
 
-  removeStore (
+  private removeStore (
     key: string,
     config: config
   ): void {
@@ -210,7 +209,7 @@ class Storages {
     )
   }
 
-  _set (
+  private _set (
     key: string,
     value: any,
     config: config
@@ -237,7 +236,7 @@ class Storages {
     }
   }
 
-  _remove (
+  private _remove (
     key: string,
     config: config
   ): void {
