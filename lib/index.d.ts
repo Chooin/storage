@@ -1,9 +1,4 @@
-interface config {
-  use?: string,
-  pre?: string,
-  expire?: number | null,
-  once: boolean
-}
+import { config } from './index'
 
 export declare function set(key: string, value: any, config?: config): void;
 export declare function get(key: string, config?: config): any;

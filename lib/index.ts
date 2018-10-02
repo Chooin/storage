@@ -1,4 +1,4 @@
-interface config {
+export interface config {
   use?: string,
   pre?: string,
   expire?: number | null,

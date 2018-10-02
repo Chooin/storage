@@ -42,5 +42,9 @@
       "json",
       "node"
     ]
-  }
+  },
+  "files": [
+    "dist",
+    "lib"
+  ]
 }
