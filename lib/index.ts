@@ -18,7 +18,7 @@ function tip (v: string): void {
 }
 
 class Storages {
-  version = 'v4.0.0-alpha.2'
+  version = 'v4.0.0-alpha.3'
   LS = window.localStorage
   SS = window.sessionStorage
   defaults = {
@@ -76,7 +76,7 @@ class Storages {
             return null
           }
         } else {
-          tip('获取 Storage 失败，Storage 中不存在该 key')
+          tip(`获取 Storage 失败，key: ${key} 不存在`)
           return null
         }
       } else {
@@ -131,7 +131,8 @@ class Storages {
     if (
       config &&
       config.expire &&
-      /^[1-9]\d*$/.test(String(config.expire))
+      /^[1-9]\d*$/.test(String(config.expire)) &&
+      config.expire.toString().length !== 13
     ) {
       config.expire = config.expire + new Date().getTime()
     }
@@ -177,7 +178,7 @@ class Storages {
     if (store[key]) {
       return store[key]
     } else {
-      tip('当前 key 不在 Storage 里面或当前 key 对应的值为 Null')
+      tip(`当前 key: ${key} 不在 Storage 里面或值为 Null`)
     }
   }
 
