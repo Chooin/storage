@@ -1,6 +1,6 @@
 {
   "name": "storage-web",
-  "version": "4.0.0-alpha.3",
+  "version": "4.0.0-alpha.5",
   "description": "浏览器端的 storage 操作",
   "main": "dist/index.js",
   "author": "zhuning",

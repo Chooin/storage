@@ -68,9 +68,7 @@ test('sets to get', function () {
 
 test('noce', function () {
   storages.default.set('Number', 0);
-  expect(storages.default.get('Number', {
-    once: true
-  })).toEqual(0);
+  expect(storages.default.getOnce('Number')).toEqual(0);
   expect(window.localStorage.getItem('Number')).toEqual(null);
 });
 

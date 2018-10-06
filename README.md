@@ -33,8 +33,6 @@ Null | 😰 String | 😃 Null
 
 ### 安装
 ``` sh
-npm install storage-web --save
-# 或
 yarn add storage-web
 ```
 
@@ -104,6 +102,8 @@ Storages.get('store', { // sessionStorage name: pre_store
   use: 's',
   pre: 'pre_'
 })
+
+Storages.getOnce('store') // 获取即销毁
 ```
 
 ## set
@@ -162,3 +162,5 @@ Storages.clear({ // 清空 localStorage 和 sessionStorage 下所有以 'pre_' �
 
 Storages.clear() // 清空所有 localStorage 和 sessionStorage
 ```
+
+
