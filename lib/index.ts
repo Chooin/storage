@@ -17,7 +17,11 @@ function tip (v: string): void {
 }
 
 class Storages {
+<<<<<<< HEAD
   version = 'v4.0.0-alpha.5'
+=======
+  version = 'v4.0.0-alpha.4'
+>>>>>>> f5965c7855ccf045f8f492e329b1519cfc1d58d5
   LS = window.localStorage
   SS = window.sessionStorage
   defaults = {
