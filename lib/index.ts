@@ -1,8 +1,7 @@
 export interface config {
   use?: string,
   pre?: string,
-  expire?: number | null,
-  once: boolean
+  expire?: number | null
 }
 
 function isDef (v: any): boolean {
@@ -18,19 +17,18 @@ function tip (v: string): void {
 }
 
 class Storages {
-  version = 'v4.0.0-alpha.3'
+  version = 'v4.0.0-alpha.4'
   LS = window.localStorage
   SS = window.sessionStorage
   defaults = {
     use: 'local',
     pre: '',
-    expire: null,
-    once: false
+    expire: null
   }
 
   constructor () {}
 
-  set (
+  public set (
     key: string | {key: string, value: any}[],
     value: any,
     config: config
@@ -48,9 +46,10 @@ class Storages {
     }
   }
 
-  get (
+  public get (
     key: string,
-    config: config
+    config: config,
+    once: boolean
   ): any {
     let value: any
     config = this.getConfig(config)
@@ -67,7 +66,7 @@ class Storages {
             ) ||
             store.expire === null
           ) {
-            if (config.once) this._remove(key, config)
+            if (once) this._remove(key, config)
             return store.type === 'String'
               ? value
               : JSON.parse(value)
@@ -94,7 +93,18 @@ class Storages {
     }
   }
 
-  remove (
+  public getOnce (
+    key: string,
+    config: config
+  ): any {
+    return this.get(
+      key,
+      config,
+      true
+    )
+  }
+
+  public remove (
     key: string | string[],
     config: config
   ): void {
@@ -108,7 +118,7 @@ class Storages {
     }
   }
 
-  clear (
+  public clear (
     config: config
   ): void {
     config = this.getConfig(config)
