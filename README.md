@@ -14,6 +14,7 @@
 - [基本使用](#基本使用)
 - [在vue中使用](#在vue中使用)
 - [get](#get)
+- [getOnce](#getOnce)
 - [set](#set)
 - [remove](#remove)
 - [clear](#clear)
@@ -102,7 +103,13 @@ Storages.get('store', { // sessionStorage name: pre_store
   use: 's',
   pre: 'pre_'
 })
+```
 
+## getOnce
+
+获取即销毁
+
+```js
 Storages.getOnce('store') // 获取即销毁
 ```
 
