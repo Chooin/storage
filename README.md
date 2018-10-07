@@ -48,15 +48,15 @@ expire| 过期时间，从当前开始 | Number | - | -
 ### 基本使用
 
 ``` js
-import Storages from 'storage-web'
+import storages from 'storage-web'
 
-Storages.set('store', {}, {
+storages.set('store', {}, {
   use: 'session',
   pre: 'pre_',
   expire: 24 * 60 * 60 * 1000
 })
 // 或
-Storages.set('store', {}, {
+storages.set('store', {}, {
   use: 'session'
 })
 ```
@@ -64,17 +64,17 @@ Storages.set('store', {}, {
 ### 在vue中使用
 
 ``` js
-import Storages from 'storage-web'
+import storages from 'storage-web'
 
 // 挂载到原型链上
-Vue.prototype.$storage = Storages
+Vue.prototype.$storage = storages
 
 // Vue 中设置默认参数
 this.$storage.defaults['use'] = 'local'
 this.$storage.defaults['pre'] = 'pre_'
 this.$storage.defaults['expire'] = 24 * 60 * 60 * 1000
 
-// 用 this.$storage 代替 Storages 即可，如：
+// 用 this.$storage 代替 storages 即可，如：
 this.$storage.get('store')
 ```
 
@@ -83,23 +83,23 @@ this.$storage.get('store')
 获取
 
 ``` js
-import Storages from 'storage-web'
+import storages from 'storage-web'
 
-Storages.get('store') // localStorage
+storages.get('store') // localStorage
 
-Storages.get('store', { // sessionStorage
+storages.get('store', { // sessionStorage
   use: 's'
 })
 
-Storages.get('store', { // sessionStorage
+storages.get('store', { // sessionStorage
   use: 'session'
 })
 
-Storages.get('store', { // sessionStorage
+storages.get('store', { // sessionStorage
   use: 'sessionStorage'
 })
 
-Storages.get('store', { // sessionStorage name: pre_store
+storages.get('store', { // sessionStorage name: pre_store
   use: 's',
   pre: 'pre_'
 })
@@ -110,7 +110,7 @@ Storages.get('store', { // sessionStorage name: pre_store
 获取即销毁
 
 ```js
-Storages.getOnce('store') // 获取即销毁
+storages.getOnce('store') // 获取即销毁
 ```
 
 ## set
@@ -118,7 +118,7 @@ Storages.getOnce('store') // 获取即销毁
 设置
 
 ``` js
-import Storages from 'storage-web'
+import storages from 'storage-web'
 
 // 支持类型 String,Number,Boolean,Array,Object,Null,Undefined...
 let storeValue = {
@@ -126,13 +126,13 @@ let storeValue = {
   store_name: 'Tmall'
 }
 
-Storages.set('store', storeValue, {
+storages.set('store', storeValue, {
   use: 's',
   pre: 'pre_',
   expire: 24 * 60 * 60 * 1000
 })
 
-Storages.set([
+storages.set([
   {
     key: 'store',
     value: storeValue
@@ -149,11 +149,11 @@ Storages.set([
 移除
 
 ``` js
-import Storages from 'storage-web'
+import storages from 'storage-web'
 
-Storages.remove('store')
+storages.remove('store')
 
-Storages.remove(['store', 'token'])
+storages.remove(['store', 'token'])
 ```
 
 ## clear
@@ -161,13 +161,13 @@ Storages.remove(['store', 'token'])
 清空
 
 ``` js
-import Storages from 'storage-web'
+import storages from 'storage-web'
 
-Storages.clear({ // 清空 localStorage 和 sessionStorage 下所有以 'pre_' 开头的
+storages.clear({ // 清空 localStorage 和 sessionStorage 下所有以 'pre_' 开头的
   pre: 'pre_'
 })
 
-Storages.clear() // 清空所有 localStorage 和 sessionStorage
+storages.clear() // 清空所有 localStorage 和 sessionStorage
 ```
 
 
